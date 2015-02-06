@@ -1,0 +1,39 @@
+{
+  "name": "common-app-components",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Rise-Vision/common-app-components",
+    "authors": [
+    "Rise Vision"
+  ],
+  "license": "GPLv3",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test"
+  ],
+  "devDependencies": {
+    "angular": "~1.2.18",
+    "angular-mocks": "1.2.18",
+    "q": "1.0.1",
+    "jquery": "1.11.0",
+    "sinon": "~1.10.2"
+  },
+  "dependencies": {
+    "angular": "1.2.18",
+    "angular-bootstrap-slider": "~0.0.6",
+    "rv-angular-bootstrap-colorpicker": "https://github.com/Rise-Vision/angular-bootstrap-colorpicker.git#3.0.14",
+    "common-style": "https://github.com/Rise-Vision/common-style.git#master",
+    "component-storage-selector": "https://github.com/Rise-Vision/component-storage-selector.git",
+    "bootstrap-sass-official": "~3.2.0",
+    "angular-bootstrap": "0.11.0",
+    "bootstrap-form-components": "https://github.com/Rise-Vision/bootstrap-form-components.git",
+    "spectrum": "https://github.com/Rise-Vision/spectrum.git",
+    "rv-common-i18n": "https://github.com/Rise-Vision/common-i18n.git#master"
+  },
+  "resolutions": {
+    "common-style": "master",
+    "rv-common-i18n": "master"
+  }
+}
