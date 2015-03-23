@@ -1,5 +1,5 @@
 {
-  "name": "common-app-components",
+  "name": "rv-common-app-components",
   "version": "0.1.0",
   "homepage": "https://github.com/Rise-Vision/common-app-components",
     "authors": [
@@ -22,17 +22,16 @@
   },
   "dependencies": {
     "angular": "1.2.18",
-    "common-style": "https://github.com/Rise-Vision/common-style.git#master",
+    "common-style": "https://github.com/Rise-Vision/common-style.git",
     "bootstrap-sass-official": "~3.2.0",
     "angular-bootstrap": "0.11.0",
+    "ng-gapi-loader": "https://github.com/Rise-Vision/ng-gapi-loader.git",
     "rv-loading": "https://github.com/Rise-Vision/rv-loading.git",
-    "rv-common-i18n": "https://github.com/Rise-Vision/common-i18n.git#master"
+    "rv-common-i18n": "https://github.com/Rise-Vision/common-i18n.git"
   },
   "resolutions": {
     "angular": ">=1",
     "jquery": "~1.11.1",
-    "angular-mocks": "~1.2.24",
-    "common-style": "master",
-    "rv-common-i18n": "master"
+    "angular-mocks": "~1.2.24"
   }
 }
