@@ -4,7 +4,6 @@
   var es = require("event-stream");
   var fs = require("fs");
   var html2js = require("gulp-html2js");
-  var merge = require("merge-stream");
   var gulp = require("gulp");
   var watch = require("gulp-watch");
   var rename = require("gulp-rename");
@@ -14,6 +13,7 @@
   var path = require("path");
   var uglify = require("gulp-uglify");
   var concat = require("gulp-concat");
+  var del = require("del");
   var factory = require("widget-tester").gulpTaskFactory;
   var e2ePort = process.env.E2E_PORT || 8099;
 
@@ -35,10 +35,20 @@
   });
   
   gulp.task("lint", function() {
-    return gulp.src("./js/**/*.js")
+    return gulp.src("./src/**/*.js")
       .pipe(jshint())
       .pipe(jshint.reporter("jshint-stylish"));
   });
+  
+  gulp.task("clean-dist", function (cb) {
+    del(['./dist/**'], cb);
+  });
+
+  gulp.task("clean-tmp", function (cb) {
+    del(['./tmp/**'], cb);
+  });
+
+  gulp.task("clean", ["clean-dist", "clean-tmp"]);
 
   var unitTestFiles = [
     "bower_components/angular/angular.js",
@@ -47,8 +57,9 @@
     "bower_components/angular-spinner/angular-spinner.js",
     "bower_components/rv-loading/loading.js",
     "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+    "bower_components/ng-gapi-loader/src/js/svc-gapi.js",
     "src/config.js",
-    "src/**/app-*.js",
+    "src/**/app.js",
     "src/**/ctr-*.js",
     "src/**/svc-*.js",
     "src/**/dtv-*.js",
@@ -70,30 +81,42 @@
   gulp.task("test:e2e", function (cb) {
     runSequence("server", "test:e2e:core", "server-close", cb);
   });
-
-  gulp.task("build", ["pretty", "lint"], function() {
-    var tasks = folders.map(function(folder){
-      var appJSFiles = gulp.src(path.join(scriptsPath, folder, "/app-*.js")),
-        svcJSFiles = gulp.src(path.join(scriptsPath, folder, "/svc-*.js")),
-        ctrlJSFiles = gulp.src(path.join(scriptsPath, folder, "/ctr-*.js")),
-        dtvJSFiles = gulp.src(path.join(scriptsPath, folder, "/dtv-*.js")),
-        ftrJSFiles = gulp.src(path.join(scriptsPath, folder, "/ftr-*.js")),
-        htmlTemplates = gulp.src(path.join(scriptsPath, folder, "/*.html"));
-      htmlTemplates.pipe(html2js({
+  
+  gulp.task("html2js", function() {
+    var tasks = folders.map(function(folder) {
+      return gulp.src(path.join(scriptsPath, folder, "**/*.html"))
+        .pipe(html2js({
         outputModuleName: "risevision.common.components." + folder,
         useStrict: true,
         base: "src"
-        }))
-        .pipe(rename({extname: ".js"}));
-      return es.merge(appJSFiles, svcJSFiles, ctrlJSFiles, dtvJSFiles, ftrJSFiles, htmlTemplates)
-        .pipe(concat(folder + ".js"))
-        .pipe(gulp.dest("dist/js"))
-        .pipe(uglify())
-        .pipe(rename(folder + ".min.js"))
-        .pipe(gulp.dest("dist/js"));
+      }))
+      .pipe(rename({extname: ".js"}))
+      .pipe(gulp.dest(path.join("tmp/templates/", folder)));
     });
-
+      return es.concat.apply(null, tasks);
+  });
+  
+  gulp.task("concat", function () { //copy angular files
+    var tasks = folders.map(function(folder) {
+      return gulp.src([
+        path.join(scriptsPath, folder, "/app.js"),
+        path.join(scriptsPath, folder, "/svc-*.js"),
+        path.join(scriptsPath, folder, "/dtv-*.js"),
+        path.join(scriptsPath, folder, "/ctr-*.js"),
+        path.join(scriptsPath, folder, "/ftr-*.js"),
+        path.join("tmp/templates/", folder, "**/*.js")
+      ])
+      .pipe(concat(folder + ".js"))
+      .pipe(gulp.dest("dist/js"))
+      .pipe(uglify())
+      .pipe(rename(folder + ".min.js"))
+      .pipe(gulp.dest("dist/js"));
+    });
     return es.concat.apply(null, tasks);
+  });
+
+  gulp.task("build", function(cb) {
+    runSequence(["clean", "pretty", "lint"], "html2js", "concat", cb);
   });
 
 })();

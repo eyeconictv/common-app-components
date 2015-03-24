@@ -1,5 +1,5 @@
 {
-  "name": "common-app-components",
+  "name": "rv-common-app-components",
   "version": "0.1.0",
   "description": "Various common compoonents shared across Angular-based apps for Rise-Vision",
   "scripts": {
