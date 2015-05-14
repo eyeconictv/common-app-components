@@ -3,8 +3,10 @@
 
   var es = require("event-stream");
   var fs = require("fs");
-  var html2js = require("gulp-html2js");
+  var ngHtml2Js = require("gulp-ng-html2js");
+  var minifyHtml = require("gulp-minify-html");
   var gulp = require("gulp");
+  var connect = require("gulp-connect");
   var watch = require("gulp-watch");
   var rename = require("gulp-rename");
   var prettify = require("gulp-jsbeautifier");
@@ -41,11 +43,11 @@
   });
   
   gulp.task("clean-dist", function (cb) {
-    del(['./dist/**'], cb);
+    del(["./dist/**"], cb);
   });
 
   gulp.task("clean-tmp", function (cb) {
-    del(['./tmp/**'], cb);
+    del(["./tmp/**"], cb);
   });
 
   gulp.task("clean", ["clean-dist", "clean-tmp"]);
@@ -60,9 +62,9 @@
     "bower_components/ng-gapi-loader/src/js/svc-gapi.js",
     "src/config.js",
     "src/**/app.js",
-    "src/**/ctr-*.js",
     "src/**/svc-*.js",
     "src/**/dtv-*.js",
+    "src/**/ctr-*.js",
     "src/**/ftr-*.js",
     "test/unit/**/*.tests.js"
   ];
@@ -83,17 +85,20 @@
   });
   
   gulp.task("html2js", function() {
-    var tasks = folders.map(function(folder) {
-      return gulp.src(path.join(scriptsPath, folder, "**/*.html"))
-        .pipe(html2js({
-        outputModuleName: "risevision.common.components." + folder,
-        useStrict: true,
-        base: "src"
+    return gulp.src("./src/**/*.html")
+      .pipe(minifyHtml({
+        empty: true,
+        spare: true,
+        quotes: true
       }))
-      .pipe(rename({extname: ".js"}))
-      .pipe(gulp.dest(path.join("tmp/templates/", folder)));
-    });
-      return es.concat.apply(null, tasks);
+      .pipe(ngHtml2Js({
+        moduleName: function (file) {
+          var pathParts = file.path.split("/");
+          var folder = pathParts[pathParts.length - 2];
+          return "risevision.common.components." + folder;
+        }
+      }))
+      .pipe(gulp.dest("./tmp/partials/"));
   });
   
   gulp.task("concat", function () { //copy angular files
@@ -104,7 +109,7 @@
         path.join(scriptsPath, folder, "/dtv-*.js"),
         path.join(scriptsPath, folder, "/ctr-*.js"),
         path.join(scriptsPath, folder, "/ftr-*.js"),
-        path.join("tmp/templates/", folder, "**/*.js")
+        path.join("./tmp/partials/", folder, "*.js")
       ])
       .pipe(concat(folder + ".js"))
       .pipe(gulp.dest("dist/js"))
@@ -117,6 +122,16 @@
 
   gulp.task("build", function(cb) {
     runSequence(["clean", "pretty", "lint"], "html2js", "concat", cb);
+  });
+  
+  gulp.task("dev-watch", function() {
+    runSequence("build", "test:unit");
+  })
+  
+  gulp.task("dev", function() {
+    console.log("[DEV] Watching test files");
+    //re-run unit tests, and rebuild
+    gulp.watch([unitTestFiles, "src/**/*.html"], ["dev-watch"]);
   });
 
 })();

@@ -39,16 +39,13 @@
 }());
 
 (function(module) {
-try { app = angular.module("risevision.common.components.last-modified"); }
-catch(err) { app = angular.module("risevision.common.components.last-modified", []); }
-app.run(["$templateCache", function($templateCache) {
-  "use strict";
-  $templateCache.put("last-modified/last-modified.html",
-    "<span class=\"text-muted\">\n" +
-    "  <small>\n" +
-    "    Saved {{changeDate | date:'d-MMM-yyyy h:mm a'}} by {{changedBy | username}}\n" +
-    "  </small>\n" +
-    "</span>\n" +
-    "");
+try {
+  module = angular.module('risevision.common.components.last-modified');
+} catch (e) {
+  module = angular.module('risevision.common.components.last-modified', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('last-modified/last-modified.html',
+    '<span class="text-muted"><small>Saved {{changeDate | date:\'d-MMM-yyyy h:mm a\'}} by {{changedBy | username}}</small></span>');
 }]);
 })();
