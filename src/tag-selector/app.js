@@ -1,4 +1,4 @@
-"user strict";
+"use strict";
 
 angular.module("risevision.common.components.tag-selector.services", [
   "risevision.common.gapi"
