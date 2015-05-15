@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Search Filter - Test Page</title>
+    <link rel="stylesheet" href="/bower_components/common-style/dist/css/rise.min.css">
+</head>
+<body ng-app="testapp" ng-controller="mainController">
+
+  <search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter> 
+  <div id="searchCount">{{searchCount}}</div>
+
+  <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script type="text/javascript" src="/bower_components/angular-spinner/angular-spinner.js"></script>
+  <script type="text/javascript" src="/bower_components/rv-loading/loading.js"></script>
+  <script src="/bower_components/angular-translate/angular-translate.js"></script>
+  <script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+  <script type="text/javascript" src="/bower_components/rv-common-i18n/dist/i18n.js"></script>
+  <script type="text/javascript" src="/bower_components/ng-gapi-loader/src/js/svc-gapi.js"></script>
+  <script type="text/javascript" src="../gapi-mock.js"></script>
+  <script type="text/javascript" src="/src/config.js"></script>
+  <script type="text/javascript" src="/dist/js/search-filter.js"></script>
+
+  <script>
+    angular.module("testapp", ["risevision.common.components.search-filter",
+      "risevision.common.i18n"])
+      .controller("mainController", ["$scope", function ($scope) {
+        $scope.searchCount = 0;
+        $scope.filterConfig = {
+          placeholder: "Search items"
+        };
+        $scope.search = {
+          query: "test"
+        };
+        $scope.doSearch = function() {
+          $scope.searchCount++;
+        };
+      }]);
+  </script>
+
+</body>
+</html>
