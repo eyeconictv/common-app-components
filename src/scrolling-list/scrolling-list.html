@@ -1,0 +1,36 @@
+<div ng-controller="scrollingListCtrl">
+  <search-filter filter-config="listConfig.filter" search="search" do-search="doSearch"></search-filter> 
+    
+  <div class="content-box half-top">
+    <div class="list-group scrollable-list"
+    rv-scroll-event="handleScroll($event, isEndEvent)"
+    rv-spinner rv-spinner-key="scrolling-list-loader"
+    rv-spinner-start-active="1"
+    >
+      <table class="table-2 table-hover">
+        <thead>
+          <tr>
+            <th ng-repeat="column in listConfig.columns" class="{{column.class}}" ng-click="sortBy(column.id)">
+              {{ column.heading | translate }}
+              <i ng-if="search.sortBy == column.id" class="fa ng-scope fa-long-arrow-up" ng-class="{false: 'fa-long-arrow-up', true: 'fa-long-arrow-down'}[search.reverse]"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="clickable-row" ng-repeat="item in listItems.list" ui-sref="displaysettings" ng-click="navigate('/display/{{display.id}}', $event)">
+            <td ng-repeat="column in listConfig.columns" class="{{column.class}}" ng-include="column.valueTemplate"></td>
+          </tr>
+          <!-- If no items available -->
+          <tr ng-show="listItems.list.length === 0 && !search.query">
+            <td colspan="3" class="text-center"><span translate>{{listConfig.emptyMessage}}</span></td>
+          </tr>
+          <!-- If no search results -->
+          <tr ng-show="listItems.list.length === 0 && search.query">
+            <td colspan="3" class="text-center"><span translate>{{listConfig.noResultsMessage}}</span></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
