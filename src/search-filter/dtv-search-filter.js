@@ -13,21 +13,21 @@ angular.module("risevision.common.components.search-filter", [])
         },
         templateUrl: "search-filter/search-filter.html",
         link: function ($scope) {
-          $scope.delay = (function() {
+          $scope.delay = (function () {
             var promise = null;
-            return function(callback, ms) {
+            return function (callback, ms) {
               $timeout.cancel(promise); //clearTimeout(timer);
               promise = $timeout(callback, ms); //timer = setTimeout(callback, ms);
             };
           })();
 
-          $scope.reset = function() {
+          $scope.reset = function () {
             if ($scope.search.query) {
               $scope.search.query = "";
               $scope.doSearch();
             }
           };
-          
+
         } //link()
       };
     }

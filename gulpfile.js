@@ -28,9 +28,9 @@
 
   /*---- tooling ---*/
   gulp.task("pretty", function() {
-    return gulp.src("./js/**/*.js")
+    return gulp.src("./src/**/*.js")
       .pipe(prettify({config: ".jsbeautifyrc", mode: "VERIFY_AND_WRITE"}))
-      .pipe(gulp.dest("./js"))
+      .pipe(gulp.dest("./src"))
       .on("error", function (error) {
         console.error(String(error));
       });

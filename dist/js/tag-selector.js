@@ -1,12 +1,14 @@
 "user strict";
 
-angular.module("risevision.common.components.tag-selector.services", 
-  ["risevision.common.gapi"]);
+angular.module("risevision.common.components.tag-selector.services", [
+  "risevision.common.gapi"
+]);
 
-angular.module("risevision.common.components.tag-selector", 
-  ["risevision.common.components.tag-selector.services",
+angular.module("risevision.common.components.tag-selector", [
+  "risevision.common.components.tag-selector.services",
   "risevision.common.loading",
-  "ui.bootstrap"])
+  "ui.bootstrap"
+])
   .value("companyId", "")
   .value("STORAGE_API_ROOT",
     "https://storage-dot-rvaserver2.appspot.com/_ah/api");
@@ -30,7 +32,7 @@ angular.module("risevision.common.components.tag-selector.services")
     function ($q, userState, storageApiLoader, $log) {
       var LOOKUP_TYPE = "LOOKUP";
       var service = {};
-            
+
       var _flattenTagList = function (tags) {
         var res = [];
         for (var i = 0; i < tags.length; i++) {
@@ -47,8 +49,8 @@ angular.module("risevision.common.components.tag-selector.services")
         }
         return res;
       };
-      
-      service.flatList = function() {
+
+      service.flatList = function () {
         var deferred = $q.defer();
 
         service.list()
