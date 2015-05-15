@@ -12,7 +12,7 @@
           },
           template: $templateCache.get("last-modified/last-modified.html"),
           link: function ($scope) {
-            $scope.$watch("changedBy", function(newVal) {
+            $scope.$watch("changedBy", function (newVal) {
               $scope.changedBy = newVal ? newVal : "N/A";
             });
           } //link()
