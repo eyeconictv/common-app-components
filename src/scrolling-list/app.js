@@ -10,7 +10,7 @@
       this.maxCount = maxCount ? maxCount : 20;
       this.cursor = null;
       this.endOfList = false;
-      
+
       //unused
       this.searchString = "";
       this.clear = function () {
