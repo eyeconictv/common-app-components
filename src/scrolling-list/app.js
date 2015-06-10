@@ -7,7 +7,7 @@
   ])
     .value("BaseList", function (maxCount) {
       this.list = [];
-      this.maxCount = maxCount ? maxCount : 20;
+      this.maxCount = maxCount ? maxCount : 40;
       this.cursor = null;
       this.endOfList = false;
 
