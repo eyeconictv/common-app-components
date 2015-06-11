@@ -30,7 +30,7 @@ describe("object: base list", function() {
     expect(listObject.list).to.be.an.array;
     expect(listObject.list).to.have.length(0);
 
-    expect(listObject.maxCount).to.equal(20);
+    expect(listObject.maxCount).to.equal(40);
   });
 
   describe("concat: ",function(){
@@ -56,7 +56,7 @@ describe("object: base list", function() {
       var results = getMoreItems(0, listObject.maxCount);
       listObject.add(results, "someCursor");
 
-      expect(listObject.list).to.have.length(20);
+      expect(listObject.list).to.have.length(40);
       expect(listObject.endOfList).to.be.false;
     });
   });
