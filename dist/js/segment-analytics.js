@@ -79,9 +79,9 @@
       function trackPageviews() {
         // Listening to $viewContentLoaded event to track pageview
         $rootScope.$on("$viewContentLoaded", function () {
-          if (analytics.location !== $location.path()) {
-            analytics.location = $location.path();
-            analytics.pageview(analytics.location);
+          if (service.location !== $location.path()) {
+            service.location = $location.path();
+            service.pageview(service.location);
           }
         });
       }
