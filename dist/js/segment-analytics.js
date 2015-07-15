@@ -52,6 +52,7 @@
         if (apiKey && !loaded) {
 
           configureIntercomMessading(enableIntercomMessading);
+          trackPageviews();
 
           var e = document.createElement("script");
           e.type = "text/javascript";
@@ -75,13 +76,23 @@
         }
       }
 
+      function trackPageviews() {
+        // Listening to $viewContentLoaded event to track pageview
+        $rootScope.$on("$viewContentLoaded", function () {
+          if (analytics.location !== $location.path()) {
+            analytics.location = $location.path();
+            analytics.pageview(analytics.location);
+          }
+        });
+      }
+
       return service;
     }
   ])
 
   .factory("analyticsEvents", ["$rootScope", "segmentAnalytics",
-    "userState", "$location",
-    function ($rootScope, segmentAnalytics, userState, $location) {
+    "userState",
+    function ($rootScope, segmentAnalytics, userState) {
       var service = {};
 
       var _identify = function () {
@@ -103,14 +114,6 @@
         $rootScope.$on("risevision.user.authorized", function () {
           if (userState.getUsername()) {
             _identify();
-          }
-        });
-
-        // Listening to $viewContentLoaded event to track pageview
-        $rootScope.$on("$viewContentLoaded", function () {
-          if (segmentAnalytics.location !== $location.path()) {
-            segmentAnalytics.location = $location.path();
-            segmentAnalytics.pageview(segmentAnalytics.location);
           }
         });
       };
