@@ -125,7 +125,7 @@
   });
   
   gulp.task("dev-watch", function() {
-    runSequence("build", "test:unit");
+    runSequence(["clean", "lint"], "html2js", "concat", "test:unit");
   })
   
   gulp.task("dev", function() {
