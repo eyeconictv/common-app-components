@@ -11,9 +11,9 @@ gapi.client = {
     tagdef: {
       list: function () {
         return {
-          result : {
-            nextPageToken : 1,
-            items : [
+          result: {
+            nextPageToken: 1,
+            items: [
               {
                 name: "tag1",
                 values: [
@@ -34,6 +34,34 @@ gapi.client = {
                   "value3"
                 ],
                 type: "FREEFORM"
+              }
+            ]
+          }
+        };
+      }
+    }
+  },
+  core: {
+    display: {
+      list: function () {
+        return {
+          result: {
+            nextPageToken: 1,
+            items: [
+              {
+                id: "id1",
+                name: "display1",
+                address: "1 display 1 street"
+              },
+              {
+                id: "id2",
+                name: "display2",
+                address: "2 display 2 street"
+              },
+              {
+                id: "id3",
+                name: "display3",
+                address: "3 display 3 street"
               }
             ]
           }
