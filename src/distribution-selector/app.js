@@ -1,0 +1,14 @@
+"use strict";
+
+angular.module("risevision.common.components.distribution-selector.services", [
+  "risevision.common.gapi"
+]);
+
+angular.module("risevision.common.components.distribution-selector", [
+  "risevision.common.components.distribution-selector.services",
+  "risevision.common.components.scrolling-list",
+  "risevision.common.loading",
+  "ui.bootstrap"
+])
+  .value("CORE_URL",
+    "https://rvacore-test.appspot.com/_ah/api");
