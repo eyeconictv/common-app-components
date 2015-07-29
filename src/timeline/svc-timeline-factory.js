@@ -5,6 +5,12 @@ angular.module("risevision.common.components.timeline.services")
 
     function () {
       return function (timeline) {
+        var RECURRENCE = {
+          DAILY: "Daily",
+          WEEKLY: "Weekly",
+          MONTHLY: "Monthly",
+          YEARLY: "Yearly"
+        };
         var _getDateTime = function (hours, minutes) {
           var d = new Date();
           d.setHours(hours);
@@ -47,17 +53,17 @@ angular.module("risevision.common.components.timeline.services")
           },
         };
 
-        var _updateRecurrence = function (timeline) {
+        var _updateRecurrence = function () {
           _timeline.hasRecurrence = _timeline.timeDefined;
 
-          if (_timeline.recurrenceType === "Daily") {
+          if (_timeline.recurrenceType === RECURRENCE.DAILY) {
             if (_timeline.recurrenceFrequency === 1) {
               _timeline.hasRecurrence = false;
             }
 
             _recurrence.daily.recurrenceFrequency = _timeline.recurrenceFrequency;
 
-          } else if (_timeline.recurrenceType === "Weekly") {
+          } else if (_timeline.recurrenceType === RECURRENCE.WEEKLY) {
             _recurrence.weekly.recurrenceFrequency = _timeline.recurrenceFrequency;
 
             for (var i = 0; i < _timeline.recurrenceDaysOfWeek.length; i++) {
@@ -65,8 +71,7 @@ angular.module("risevision.common.components.timeline.services")
                 _recurrence.weekly.monday = true;
               } else if (_timeline.recurrenceDaysOfWeek[i] === "Tue") {
                 _recurrence.weekly.tuesday = true;
-              } else if (_timeline.recurrenceDaysOfWeek[i] ===
-                "Wed") {
+              } else if (_timeline.recurrenceDaysOfWeek[i] === "Wed") {
                 _recurrence.weekly.wednesday = true;
               } else if (_timeline.recurrenceDaysOfWeek[i] === "Thu") {
                 _recurrence.weekly.thursday = true;
@@ -78,7 +83,7 @@ angular.module("risevision.common.components.timeline.services")
                 _recurrence.weekly.sunday = true;
               }
             }
-          } else if (_timeline.recurrenceType === "Monthly") {
+          } else if (_timeline.recurrenceType === RECURRENCE.MONTHLY) {
             _recurrence.monthly.recurrenceAbsolute = _timeline.recurrenceAbsolute;
             if (_timeline.recurrenceAbsolute) {
               _recurrence.monthly.absolute.recurrenceFrequency =
@@ -93,7 +98,7 @@ angular.module("risevision.common.components.timeline.services")
               _recurrence.monthly.relative.recurrenceDayOfWeek =
                 _timeline.recurrenceDayOfWeek;
             }
-          } else if (_timeline.recurrenceType === "Yearly") {
+          } else if (_timeline.recurrenceType === RECURRENCE.YEARLY) {
             _recurrence.yearly.recurrenceAbsolute = _timeline.recurrenceAbsolute;
             if (_timeline.recurrenceAbsolute) {
               _recurrence.yearly.absolute.recurrenceMonthOfYear =
@@ -117,7 +122,8 @@ angular.module("risevision.common.components.timeline.services")
           _timeline.endDate = _timeline.endDate || null;
           _timeline.startTime = _timeline.startTime || null;
           _timeline.endTime = _timeline.endTime || null;
-          _timeline.recurrenceType = _timeline.recurrenceType || "Daily";
+          _timeline.recurrenceType = _timeline.recurrenceType ||
+            RECURRENCE.DAILY;
           _timeline.recurrenceFrequency = _timeline.recurrenceFrequency ||
             1;
           _timeline.recurrenceAbsolute =
@@ -150,10 +156,11 @@ angular.module("risevision.common.components.timeline.services")
         _init();
 
         var _saveRecurrence = function () {
-          if (_timeline.recurrenceType === "Daily" || !_timeline.hasRecurrence) {
-            _timeline.recurrenceType = "Daily";
+          if (_timeline.recurrenceType === RECURRENCE.DAILY ||
+            !_timeline.hasRecurrence) {
+            _timeline.recurrenceType = RECURRENCE.DAILY;
             _timeline.recurrenceFrequency = _recurrence.daily.recurrenceFrequency;
-          } else if (_timeline.recurrenceType === "Weekly") {
+          } else if (_timeline.recurrenceType === RECURRENCE.WEEKLY) {
             _timeline.recurrenceFrequency = _recurrence.weekly.recurrenceFrequency;
 
             _timeline.recurrenceDaysOfWeek = [];
@@ -179,7 +186,7 @@ angular.module("risevision.common.components.timeline.services")
               _timeline.recurrenceDaysOfWeek.push("Sun");
             }
 
-          } else if (_timeline.recurrenceType === "Monthly") {
+          } else if (_timeline.recurrenceType === RECURRENCE.MONTHLY) {
             _timeline.recurrenceAbsolute = _recurrence.monthly.recurrenceAbsolute;
             if (_timeline.recurrenceAbsolute) {
               _timeline.recurrenceFrequency =
@@ -194,7 +201,7 @@ angular.module("risevision.common.components.timeline.services")
               _timeline.recurrenceDayOfWeek =
                 _recurrence.monthly.relative.recurrenceDayOfWeek;
             }
-          } else if (_timeline.recurrenceType === "Yearly") {
+          } else if (_timeline.recurrenceType === RECURRENCE.YEARLY) {
             _timeline.recurrenceAbsolute = _recurrence.yearly.recurrenceAbsolute;
             if (_timeline.recurrenceAbsolute) {
               _timeline.recurrenceMonthOfYear =
