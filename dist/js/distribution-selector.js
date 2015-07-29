@@ -32,6 +32,9 @@ angular.module("risevision.common.components.distribution-selector.services")
 
         query = query.substring(3);
 
+        //restrict the search result to contain only displays from the selected company
+        query = query + " AND companyId=" + userState.getSelectedCompanyId();
+
         return query.trim();
       };
 
