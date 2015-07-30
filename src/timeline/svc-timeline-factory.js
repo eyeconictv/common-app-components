@@ -11,10 +11,20 @@ angular.module("risevision.common.components.timeline.services")
           MONTHLY: "Monthly",
           YEARLY: "Yearly"
         };
-        var _getDateTime = function (hours, minutes) {
+        var _getDateTime = function (hour, minute) {
           var d = new Date();
-          d.setHours(hours);
-          d.setMinutes(minutes);
+
+          if (_timeline.useLocaldate) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(),
+              hour, minute, 0));
+          } else {
+            d.setHours(hour);
+            d.setMinutes(minute);
+            d.setSeconds(0);
+
+            d = d.toLocaleDateString("en-US") + " " +
+              d.toLocaleTimeString("en-US");
+          }
 
           return d;
         };
@@ -118,7 +128,7 @@ angular.module("risevision.common.components.timeline.services")
 
         var _init = function () {
           _timeline.timeDefined = _timeline.timeDefined || false;
-          _timeline.startDate = _timeline.startDate || new Date();
+          _timeline.startDate = _timeline.startDate || _getDateTime(0, 0);
           _timeline.endDate = _timeline.endDate || null;
           _timeline.startTime = _timeline.startTime || null;
           _timeline.endTime = _timeline.endTime || null;

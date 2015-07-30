@@ -6,6 +6,7 @@
         return {
           restrict: "E",
           scope: {
+            useLocaldate: "=",
             timeDefined: "=",
             startDate: "=",
             endDate: "=",
@@ -23,6 +24,7 @@
           templateUrl: "timeline/timeline-textbox.html",
           link: function ($scope) {
             $scope.timeline = {
+              useLocaldate: $scope.useLocaldate,
               timeDefined: $scope.timeDefined,
               startDate: $scope.startDate,
               endDate: $scope.endDate,
