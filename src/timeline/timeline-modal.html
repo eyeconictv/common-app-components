@@ -31,10 +31,8 @@
                     <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'startDate')"><i class="fa fa-calendar"></i></button>
                   </span>
                 </div>
-                <div class="alert alert-danger" ng-show="timelineDetails.startDate.$invalid">
-                  Start Date is a required field
-                </div>
               </div>
+              
             </div><!--col-sm-4-->
 
             <div class="col-sm-4">
@@ -47,12 +45,11 @@
                   </span>
                 </div>
               </div>
-              <div class="alert alert-danger" ng-show="timeline.endDate && timeline.startDate.getDate() > timeline.endDate.getDate()">
-                End Date must occur after Start Date
-              </div>
+
             </div><!--col-sm-4-->
-            
           </div><!--row-->
+          <p class="text-danger" ng-show="timeline.endDate && timeline.startDate.getDate() > timeline.endDate.getDate()">End Date must occur after Start Date</p>
+          <p class="text-danger" ng-show="timelineDetails.startDate.$invalid">Start Date is a required field</p>
         </section>
 
         <section>
