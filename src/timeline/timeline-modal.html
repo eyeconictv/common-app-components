@@ -123,9 +123,9 @@
             <div ng-if="timeline.recurrenceType === 'Daily'">
               <div class="form-group">
                 <label class="control-label">Every</label>
-                <input type="number" class="form-control input-short" style="width: 40px; padding: 6px 0; text-align: center;" name="dailyRecurrenceFrequency" ng-model="recurrence.daily.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Daily'">
+                <input type="number" class="form-control input-short" name="dailyRecurrenceFrequency" ng-model="recurrence.daily.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Daily'">
                 <label class="control-label">Day(s)</label>
-                <p class="text-danger" style="display: block;" ng-show="timelineDetails.dailyRecurrenceFrequency.$invalid">
+                <p class="text-danger" ng-show="timelineDetails.dailyRecurrenceFrequency.$invalid">
                   Daily Recurrence Frequency must be a number between 1 and 999
                 </p>
               </div><!--form group-->
@@ -133,9 +133,9 @@
             <div ng-show="timeline.recurrenceType === 'Weekly'">
               <div class="form-group">
                 <label class="control-label">Every</label>
-                <input type="number" class="form-control input-short" style="width: 40px; padding: 6px 0; text-align: center;" name="weeklyRecurrenceFrequency" ng-model="recurrence.weekly.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Weekly'">
+                <input type="number" class="form-control input-short" name="weeklyRecurrenceFrequency" ng-model="recurrence.weekly.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Weekly'">
                 <label class="control-label">Week(s)</label>
-                <p class="text-danger" style="display: block;" ng-show="timelineDetails.weeklyRecurrenceFrequency.$invalid">
+                <p class="text-danger" ng-show="timelineDetails.weeklyRecurrenceFrequency.$invalid">
                   Weekly Recurrence Frequency must be a number between 1 and 999
                 </p>
               </div>
@@ -153,15 +153,15 @@
               <div class="form-group">
                 <label class="control-label"><input ng-model="recurrence.monthly.recurrenceAbsolute" ng-value="true" type="radio"> Day</label>
                 <fieldset ng-disabled="!recurrence.monthly.recurrenceAbsolute">
-                  <input type="number" class="form-control input-short" style="width: 40px; padding: 6px 0; text-align: center;" name="monthlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.monthly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === 'Monthly' && recurrence.monthly.recurrenceAbsolute">
+                  <input type="number" class="form-control input-short" name="monthlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.monthly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === 'Monthly' && recurrence.monthly.recurrenceAbsolute">
                   <label class="control-label">of Every</label>
-                  <input type="number" class="form-control input-short" style="width: 40px; padding: 6px 0; text-align: center;" name="monthlyAbsoluteRecurrenceFrequency" ng-model="recurrence.monthly.absolute.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Monthly' && recurrence.monthly.recurrenceAbsolute">
+                  <input type="number" class="form-control input-short" name="monthlyAbsoluteRecurrenceFrequency" ng-model="recurrence.monthly.absolute.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Monthly' && recurrence.monthly.recurrenceAbsolute">
                   <label class="control-label">Month(s)</label>
                 </fieldset>
-                <p class="text-danger" style="display: block;" ng-show="timelineDetails.monthlyAbsoluteRecurrenceDayOfMonth.$invalid">
+                <p class="text-danger" ng-show="timelineDetails.monthlyAbsoluteRecurrenceDayOfMonth.$invalid">
                   Monthly Recurrence Day Of Month value must be between 1 and 31
                 </p>
-                <p class="text-danger" style="display: block;" ng-show="timelineDetails.monthlyAbsoluteRecurrenceFrequency.$invalid">
+                <p class="text-danger" ng-show="timelineDetails.monthlyAbsoluteRecurrenceFrequency.$invalid">
                   Monthly Recurrence Frequency must be a number between 1 and 999
                 </p>
               </div>
@@ -171,10 +171,10 @@
                   <week-dropdown week="recurrence.monthly.relative.recurrenceWeekOfMonth"></week-dropdown>
                   <weekday-dropdown weekday="recurrence.monthly.relative.recurrenceDayOfWeek"></weekday-dropdown>
                   <label class="control-label">of Every</label>
-                  <input type="number" class="form-control input-short" style="width: 40px; padding: 6px 0; text-align: center;" name="monthlyRelativeRecurrenceFrequency" ng-model="recurrence.monthly.relative.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Monthly' && !recurrence.monthly.recurrenceAbsolute"
+                  <input type="number" class="form-control input-short" name="monthlyRelativeRecurrenceFrequency" ng-model="recurrence.monthly.relative.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === 'Monthly' && !recurrence.monthly.recurrenceAbsolute"
                   <label class="control-label">Month(s)</label>
                 </fieldset>
-                <p class="text-danger" style="display: block;" ng-show="timelineDetails.monthlyRelativeRecurrenceFrequency.$invalid">
+                <p class="text-danger" ng-show="timelineDetails.monthlyRelativeRecurrenceFrequency.$invalid">
                   Monthly Relative Recurrence Frequency must be a number between 1 and 999
                 </p>
               </div><!--form-group-->
@@ -185,9 +185,9 @@
                 <label class="control-label"><input type="radio" ng-model="recurrence.yearly.recurrenceAbsolute" ng-value="true"> Every</label>
                 <fieldset ng-disabled="!recurrence.yearly.recurrenceAbsolute">
                   <month-dropdown month="recurrence.yearly.absolute.recurrenceMonthOfYear"></month-dropdown>
-                  <input type="number" class="form-control input-short" style="width: 40px; padding: 6px 0; text-align: center;" name="yearlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.yearly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === 'Yearly' && recurrence.yearly.recurrenceAbsolute">
+                  <input type="number" class="form-control input-short" name="yearlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.yearly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === 'Yearly' && recurrence.yearly.recurrenceAbsolute">
                 </fieldset>
-                <p class="text-danger" style="display: block;" ng-show="timelineDetails.yearlyAbsoluteRecurrenceDayOfMonth.$invalid">
+                <p class="text-danger" ng-show="timelineDetails.yearlyAbsoluteRecurrenceDayOfMonth.$invalid">
                   Yearly Recurrence Day Of Month value must be between 1 and 31
                 </p>
               </div>
