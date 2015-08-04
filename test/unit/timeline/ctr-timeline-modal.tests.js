@@ -27,6 +27,7 @@ describe('controller: Edit Timeline Modal', function() {
     });
 
     $provide.value('timeline', timelineValue);
+    $provide.value('useLocaldate', true);
   }));
   var $scope, $modalInstance, $modalInstanceDismissSpy, $modalInstanceCloseSpy, timelineValue, timeline;
 
@@ -43,7 +44,8 @@ describe('controller: Edit Timeline Modal', function() {
           $scope : $scope,
           $modalInstance : $modalInstance,
           timeline: timeline,
-          TimelineFactory: $injector.get('TimelineFactory')
+          TimelineFactory: $injector.get('TimelineFactory'),
+          useLocaldate: $injector.get("useLocaldate")
         });
         $scope.$digest();
       });

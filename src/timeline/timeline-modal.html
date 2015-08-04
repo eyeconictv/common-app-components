@@ -26,7 +26,7 @@
               <div class="form-group">
                 <label class="control-label">Start Date</label>
                 <div class="input-group">
-                  <input type="text" id="startDate" name="startDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.startDate" is-open="datepickers.startDate" min-date="today" datepicker-options="dateOptions" ng-required="!timeline.everyDay" close-text="Close" />
+                  <input type="text" id="startDate" name="startDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.startDate" is-open="datepickers.startDate" min-date="today" datepicker-options="dateOptions" datepicker-localdate="{{timeline.useLocaldate}}" ng-required="!timeline.everyDay" close-text="Close" />
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'startDate')"><i class="fa fa-calendar"></i></button>
                   </span>
@@ -39,17 +39,16 @@
               <div class="form-group">
                 <label class="control-label">End Date</label>
                 <div class="input-group">
-                  <input type="text" id="endDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.endDate" is-open="datepickers.endDate" min-date="timeline.startDate" datepicker-options="dateOptions" close-text="Close" />
+                  <input type="text" id="endDate" name="endDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.endDate" is-open="datepickers.endDate" min-date="timeline.startDate" datepicker-options="dateOptions" datepicker-localdate="{{timeline.useLocaldate}}" larger-than-date close-text="Close" />
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'endDate')"><i class="fa fa-calendar"></i></button>
                   </span>
                 </div>
               </div>
-
             </div><!--col-sm-4-->
           </div><!--row-->
-          <p class="text-danger" ng-show="timeline.endDate && timeline.startDate.getDate() > timeline.endDate.getDate()">End Date must occur after Start Date</p>
           <p class="text-danger" ng-show="timelineDetails.startDate.$invalid">Start Date is a required field</p>
+          <p class="text-danger" ng-show="timelineDetails.endDate.$invalid">End Date must occur after Start Date</p>
         </section>
 
         <section>
@@ -60,13 +59,13 @@
             <div class="col-sm-4">
               <label class="control-label">Start Time</label>
               <div class="time-picker">
-                <timepicker id="startTime" ng-model="timeline.startTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
+                <timepicker id="startTime" ng-model="timeline.startTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true" datepicker-localdate="{{timeline.useLocaldate}}"></timepicker>
               </div>
             </div><!--col-sm-4-->
             <div class="col-sm-4">
               <label class="control-label">End Time</label>
               <div class="time-picker">
-                <timepicker id="endTime" ng-model="timeline.endTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
+                <timepicker id="endTime" ng-model="timeline.endTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true" datepicker-localdate="{{timeline.useLocaldate}}"></timepicker>
               </div>
             </div><!--col-sm-4-->
           </div>
