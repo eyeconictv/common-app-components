@@ -3,12 +3,12 @@
     <label class="control-label"><input id="allDisplaysCheckbox" type="checkbox" ng-model="parameters.distributeToAll" class="add-right" ng-change="cleanSelection()" /> All Displays</label>
   </div>
   <search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter>
-
-  <div class="content-box scrollable-list half-top"
-       scrolling-list="load()"
-       rv-spinner rv-spinner-key="display-list-loader"
-       rv-spinner-start-active="1"
-    >
+  <div class="content-box half-top">
+    <div class="scrollable-list"
+         scrolling-list="load()"
+         rv-spinner rv-spinner-key="display-list-loader"
+         rv-spinner-start-active="1"
+      >
       <table id="displayListTable" class="table-2 table-hover" ng-class="{ 'animated fadeIn table-selector multiple-selector': !parameters.distributeToAll}">
         <thead>
           <tr>
@@ -33,5 +33,5 @@
 
       </table>
     </div>
-  </div>
+  </div><!--content-box-->
 </div>
