@@ -2,5 +2,7 @@
   <input ng-model="timeline.always" type="checkbox"> Always
 </label>
 <div id="timelineTextbox" class="content-box-editable remove-bottom clickable" ng-click="openModal()" ng-show="!timeline.always">
-  <div class="label label-tag">{{timeline.label}}</div>
+  <div class="label label-tag">
+    <span id="timelineLabel" timeline-description timeline="timeline">{{timeline.label}}</span>
+  </div>
 </div>  

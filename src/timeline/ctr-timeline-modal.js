@@ -5,7 +5,6 @@
       "TimelineFactory",
       function ($scope, $modalInstance, timeline, TimelineFactory) {
         var factory = new TimelineFactory(timeline);
-
         $scope.recurrence = factory.recurrence;
         $scope.timeline = factory.timeline;
 
@@ -28,7 +27,6 @@
 
         $scope.save = function () {
           factory.save();
-
           $modalInstance.close($scope.timeline);
         };
 

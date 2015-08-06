@@ -16,3 +16,4 @@ npm-debug.log
 reports/
 bower_components/
 src/_config/config.js
+*.iml
