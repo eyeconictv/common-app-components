@@ -24,8 +24,6 @@ describe('service: TimelineFactory ', function() {
     it('should initialize timeline correctly',function(){
       var factory = new TimelineFactory({});
 
-      expect(factory.timeline.timeDefined).to.be.false;
-
       expect(factory.timeline.everyDay).to.be.true;
       expect(factory.timeline.allDay).to.be.true;
 
@@ -38,14 +36,11 @@ describe('service: TimelineFactory ', function() {
 
     it('should save timeline correctly',function(){
       var factory = new TimelineFactory({});
-      factory.timeline.timeDefined = true;
       factory.timeline.hasRecurrence = true;
       factory.timeline.recurrenceType = "Weekly";
       factory.recurrence.weekly.tuesday = true;
       factory.save();
       
-      expect(factory.timeline.timeDefined).to.be.true;
-
       expect(factory.timeline.startTime).to.not.be.ok;
       expect(factory.timeline.endTime).to.not.be.ok;
       
@@ -54,36 +49,98 @@ describe('service: TimelineFactory ', function() {
     });
   });
 
-  describe('New timeline: ' ,function () {
-    it('should default to timeDefined is false if no recurrence is entered',function(){
-      var factory = new TimelineFactory({});
+  describe('Existing timeline: ' ,function () {
+    it('should load startDate correctly',function(){
+      var factory = new TimelineFactory({
+        startDate: new Date()
+      });
       
-      factory.timeline.timeDefined = true;
-      factory.timeline.hasRecurrence = false;
-      factory.timeline.recurrenceType = "Weekly";
-      factory.recurrence.weekly.tuesday = true;
-
-      factory.save();
-
-      expect(factory.timeline.timeDefined).to.be.false;
-
-      expect(factory.timeline.recurrenceType).to.equal("Daily");
-      expect(factory.timeline.recurrenceFrequency).to.equal(1);
+      expect(factory.timeline.everyDay).to.be.false;
     });
 
-    it('should load absolute recurrence correctly',function(){
+    it('should load startTime/endTime correctly',function(){
       var factory = new TimelineFactory({
-        timeDefined: true,
-        recurrenceType: "Monthly",
-        recurrenceAbsolute: true
+        startTime: new Date(),
+        endTime: new Date()
       });
+      
+      expect(factory.timeline.allDay).to.be.false;
+    });
+
+    it('should load monthly recurrence defaults correctly',function(){
+      var factory = new TimelineFactory({
+        recurrenceType: "Monthly"
+      });
+      
+      expect(factory.recurrence.monthly.recurrenceAbsolute).to.be.true;
+      expect(factory.recurrence.monthly.absolute.recurrenceFrequency).to.equal(1);
+      expect(factory.recurrence.monthly.absolute.recurrenceDayOfMonth).to.equal(1);
+      
       factory.save();
       
-      expect(factory.timeline.timeDefined).to.be.true;
-
       expect(factory.timeline.recurrenceType).to.equal("Monthly");
       expect(factory.timeline.recurrenceAbsolute).to.be.true;
+      expect(factory.timeline.recurrenceFrequency).to.equal(1);
+      expect(factory.timeline.recurrenceDayOfMonth).to.equal(1);
     });
+    
+    it('should load monthly relative recurrence defaults correctly',function(){
+      var factory = new TimelineFactory({
+        recurrenceType: "Monthly",
+        recurrenceAbsolute: false
+      });
+      
+      expect(factory.recurrence.monthly.recurrenceAbsolute).to.be.false;
+      expect(factory.recurrence.monthly.relative.recurrenceFrequency).to.equal(1);
+      expect(factory.recurrence.monthly.relative.recurrenceWeekOfMonth).to.equal(0);
+      expect(factory.recurrence.monthly.relative.recurrenceDayOfWeek).to.equal(0);
 
+      factory.save();
+      
+      expect(factory.timeline.recurrenceType).to.equal("Monthly");
+      expect(factory.timeline.recurrenceAbsolute).to.be.false;
+      expect(factory.timeline.recurrenceFrequency).to.equal(1);
+      expect(factory.timeline.recurrenceWeekOfMonth).to.equal(0);
+      expect(factory.timeline.recurrenceDayOfWeek).to.equal(0);
+    });
+    
+    it('should load yearly recurrence defaults correctly',function(){
+      var factory = new TimelineFactory({
+        recurrenceType: "Yearly"
+      });
+      
+      expect(factory.recurrence.yearly.recurrenceAbsolute).to.be.true;
+      expect(factory.recurrence.yearly.absolute.recurrenceMonthOfYear).to.equal(0);
+      expect(factory.recurrence.yearly.absolute.recurrenceDayOfMonth).to.equal(1);
+      
+      factory.save();
+      
+      expect(factory.timeline.recurrenceType).to.equal("Yearly");
+      expect(factory.timeline.recurrenceAbsolute).to.be.true;
+      expect(factory.timeline.recurrenceMonthOfYear).to.equal(0);
+      expect(factory.timeline.recurrenceDayOfMonth).to.equal(1);
+    });
+    
+    it('should load yearly relative recurrence defaults correctly',function(){
+      var factory = new TimelineFactory({
+        recurrenceType: "Yearly",
+        recurrenceAbsolute: false
+      });
+      
+      expect(factory.recurrence.yearly.recurrenceAbsolute).to.be.false;
+      expect(factory.recurrence.yearly.relative.recurrenceDayOfWeek).to.equal(0);
+      expect(factory.recurrence.yearly.relative.recurrenceWeekOfMonth).to.equal(0);
+      expect(factory.recurrence.yearly.relative.recurrenceMonthOfYear).to.equal(0);
+
+      factory.save();
+      
+      expect(factory.timeline.recurrenceType).to.equal("Yearly");
+      expect(factory.timeline.recurrenceAbsolute).to.be.false;
+      expect(factory.timeline.recurrenceDayOfWeek).to.equal(0);
+      expect(factory.timeline.recurrenceWeekOfMonth).to.equal(0);
+      expect(factory.timeline.recurrenceMonthOfYear).to.equal(0);
+    });
+    
+    
   });
 });

@@ -1,3 +1,6 @@
-<div id="timelineTextbox" class="content-box-editable remove-bottom clickable" ng-click="openModal()">
+<label class="control-label control-label-secondary add-left">
+  <input ng-model="timeline.always" type="checkbox"> Always
+</label>
+<div id="timelineTextbox" class="content-box-editable remove-bottom clickable" ng-click="openModal()" ng-show="!timeline.always">
   <div class="label label-tag">{{timeline.label}}</div>
 </div>  

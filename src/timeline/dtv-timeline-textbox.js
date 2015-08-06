@@ -25,7 +25,7 @@
           link: function ($scope) {
             $scope.timeline = {
               useLocaldate: $scope.useLocaldate,
-              timeDefined: $scope.timeDefined,
+              always: !$scope.timeDefined,
               startDate: $scope.startDate,
               endDate: $scope.endDate,
               startTime: $scope.startTime,
@@ -39,6 +39,10 @@
               recurrenceMonthOfYear: $scope.recurrenceMonthOfYear,
               recurrenceDaysOfWeek: $scope.recurrenceDaysOfWeek
             };
+
+            $scope.$watch("timeline.always", function (newValue) {
+              $scope.timeDefined = !newValue;
+            });
 
             $scope.openModal = function () {
               var modalInstance = $modal.open({
@@ -57,7 +61,6 @@
                 //do what you need if user presses ok
                 $scope.timeline = timeline;
 
-                $scope.timeDefined = timeline.timeDefined;
                 $scope.startDate = timeline.startDate;
                 $scope.endDate = timeline.endDate;
                 $scope.startTime = timeline.startTime;

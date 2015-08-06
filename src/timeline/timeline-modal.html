@@ -73,10 +73,10 @@
 
         <section>   
           <label class="control-label half-bottom" for="recurrence">
-            <input type="checkbox" ng-model="timeline.hasRecurrence"> <strong>Recurrence</strong>
+            <strong>Recurrence</strong>
           </label>
 
-          <div class="form-group" ng-show="timeline.hasRecurrence">
+          <div class="form-group">
             <label for="Daily" class="add-right control-label"> 
               <input type="radio"
               ng-model="timeline.recurrenceType"
@@ -115,7 +115,7 @@
 
           </div>
 
-          <div class="recurrence-option" ng-show="timeline.hasRecurrence">
+          <div class="recurrence-option">
             <div ng-if="timeline.recurrenceType === 'Daily'">
               <div class="form-group">
                 <label class="control-label">Every</label>
