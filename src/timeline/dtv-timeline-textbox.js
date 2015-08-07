@@ -73,6 +73,7 @@
                 $scope.recurrenceWeekOfMonth = timeline.recurrenceWeekOfMonth;
                 $scope.recurrenceMonthOfYear = timeline.recurrenceMonthOfYear;
                 $scope.recurrenceDaysOfWeek = timeline.recurrenceDaysOfWeek;
+
               }, function () {
                 // do what you need to do if user cancels
               });

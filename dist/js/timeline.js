@@ -10,6 +10,154 @@ angular.module("risevision.common.components.timeline", [
 "use strict";
 
 angular.module("risevision.common.components.timeline.services")
+  .factory("TimelineDescriptionService", ["$filter",
+    function ($filter) {
+      return function () {
+        var RECURRENCE = {
+          DAILY: "Daily",
+          WEEKLY: "Weekly",
+          MONTHLY: "Monthly",
+          YEARLY: "Yearly"
+        };
+
+        var LABEL = {
+          EVERY_DAY: "Every Day",
+          ALL_DAY: "All Day",
+          START: "Start",
+          END: "End",
+          TO: "to",
+          DAY: "Day",
+          OF: "Of",
+          EVERY: "Every"
+        };
+
+        var OPTIONS_WEEK = ["First", "Second", "Third", "Fourth",
+          "Last"
+        ];
+
+        var OPTIONS_DAY_OF_THE_WEEK = ["Sunday", "Monday", "Tuesday",
+          "Wednesday", "Thursday", "Friday", "Saturday"
+        ];
+
+        var OPTIONS_MONTH = ["January", "February", "March", "April", "May",
+          "June",
+          "July", "August", "September", "October", "November",
+          "December"
+        ];
+
+        var _filterDateFormat = function (date, format) {
+          return $filter("date")(new Date(date), format);
+        };
+
+        this.updateLabel = function (timeline, recurrence) {
+          var label = "";
+
+          if (!timeline.always) {
+
+
+            if (timeline.startDate) {
+              var shortFormat = "dd-MMM-yyyy";
+              label = label + _filterDateFormat(timeline.startDate,
+                shortFormat) + " ";
+
+              if (timeline.endDate) {
+                label = label + LABEL.TO + " " + _filterDateFormat(
+                  timeline
+                  .endDate,
+                  shortFormat) + " ";
+              }
+
+            }
+
+            if (timeline.startTime) {
+              var shortTimeformat = "hh:mm a";
+              label = label + _filterDateFormat(timeline.startTime,
+                shortTimeformat) +
+                " ";
+
+              if (timeline.endTime) {
+                label = label + LABEL.TO + " " + _filterDateFormat(
+                  timeline
+                  .endTime,
+                  shortTimeformat) + " ";
+              }
+            }
+            if (timeline.recurrenceType) {
+              var monthFrequency = 0;
+              label = label + timeline.recurrenceType + " ";
+
+              if (timeline.recurrenceType === RECURRENCE.MONTHLY) {
+                if (timeline.recurrenceAbsolute) {
+                  label = label + LABEL.DAY + " " + timeline.recurrenceDayOfMonth +
+                    " " + LABEL.OF + " ";
+                  monthFrequency = timeline.recurrenceFrequency;
+                } else {
+                  label = label + OPTIONS_WEEK[timeline.recurrenceWeekOfMonth] +
+                    " " + OPTIONS_DAY_OF_THE_WEEK[timeline.recurrenceDayOfWeek] +
+                    " " + LABEL.OF + " ";
+                  monthFrequency = timeline.recurrenceFrequency;
+                }
+              }
+
+
+              label = label + LABEL.EVERY + " ";
+
+
+              if (timeline.recurrenceType === RECURRENCE.YEARLY) {
+                if (timeline.recurrenceAbsolute) {
+                  label = label + OPTIONS_MONTH[timeline.recurrenceMonthOfYear] +
+                    " " + timeline.recurrenceDayOfMonth +
+                    " ";
+                } else {
+                  label = label + OPTIONS_WEEK[timeline.recurrenceWeekOfMonth] +
+                    " " + OPTIONS_DAY_OF_THE_WEEK[timeline.recurrenceDayOfWeek] +
+                    " " + LABEL.OF + " " + OPTIONS_MONTH[timeline.recurrenceMonthOfYear] +
+                    " ";
+                }
+              } else {
+
+                label = label + timeline.recurrenceFrequency +
+                  " " +
+                  timeline.recurrenceType
+                  .substring(0, timeline.recurrenceType.length -
+                    2).replace(
+                    "i", "y") + "(s)" + " ";
+
+              }
+
+              if (timeline.recurrenceType === RECURRENCE.WEEKLY && timeline
+                .recurrenceDaysOfWeek) {
+
+                for (var i = 0; i < timeline.recurrenceDaysOfWeek.length; i++) {
+                  if (timeline.recurrenceDaysOfWeek[i] === "Mon") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[1] + " ";
+                  } else if (timeline.recurrenceDaysOfWeek[i] === "Tue") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[2] + " ";
+                  } else if (timeline.recurrenceDaysOfWeek[i] === "Wed") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[3] + " ";
+                  } else if (timeline.recurrenceDaysOfWeek[i] === "Thu") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[4] + " ";
+                  } else if (timeline.recurrenceDaysOfWeek[i] === "Fri") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[5] + " ";
+                  } else if (timeline.recurrenceDaysOfWeek[i] === "Sat") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[6] + " ";
+                  } else if (timeline.recurrenceDaysOfWeek[i] === "Sun") {
+                    label = label + OPTIONS_DAY_OF_THE_WEEK[0] + " ";
+                  }
+                }
+              }
+            }
+          }
+          return label;
+
+        };
+      };
+    }
+  ]);
+
+"use strict";
+
+angular.module("risevision.common.components.timeline.services")
   .factory("TimelineFactory", [
 
     function () {
@@ -326,6 +474,26 @@ angular.module("risevision.common.components.timeline.services")
 (function (angular) {
   "use strict";
   angular.module("risevision.common.components.timeline")
+    .directive("timelineDescription", ["$filter",
+      "TimelineDescriptionService",
+      function ($filter, TimelineDescriptionService) {
+        return {
+          restrict: "A",
+          link: function (scope, elem, attrs) {
+            var timelineDescriptionService = new TimelineDescriptionService();
+            scope.$watch(attrs.timeline, function () {
+              scope.timeline.label = timelineDescriptionService.updateLabel(
+                scope.timeline);
+            }, true);
+          }
+        };
+      }
+    ]);
+})(angular);
+
+(function (angular) {
+  "use strict";
+  angular.module("risevision.common.components.timeline")
     .directive("weekDropdown",
       function () {
         return {
@@ -414,6 +582,7 @@ angular.module("risevision.common.components.timeline.services")
                 $scope.recurrenceWeekOfMonth = timeline.recurrenceWeekOfMonth;
                 $scope.recurrenceMonthOfYear = timeline.recurrenceMonthOfYear;
                 $scope.recurrenceDaysOfWeek = timeline.recurrenceDaysOfWeek;
+
               }, function () {
                 // do what you need to do if user cancels
               });
@@ -463,7 +632,6 @@ angular.module("risevision.common.components.timeline.services")
       "TimelineFactory",
       function ($scope, $modalInstance, timeline, TimelineFactory) {
         var factory = new TimelineFactory(timeline);
-
         $scope.recurrence = factory.recurrence;
         $scope.timeline = factory.timeline;
 
@@ -486,7 +654,6 @@ angular.module("risevision.common.components.timeline.services")
 
         $scope.save = function () {
           factory.save();
-
           $modalInstance.close($scope.timeline);
         };
 
@@ -517,7 +684,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/timeline-modal.html',
-    '<div id="timelineModal"><div class="modal-header"><button type="button" class="close" ng-click="close()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title">Edit Timeline</h3></div><div class="modal-body"><form role="form" name="timelineDetails" novalidate=""><div class="timeline"><div class="content-box-editable clickable"><div class="label label-tag"><span>Start 02-Jan-2014 End 21-Jan-2014 08:00AM to 05:30PM Weekly (Sun,Sat)</span></div></div><section><label class="control-label half-bottom" for="everyday"><input type="checkbox" ng-model="timeline.everyDay"> <strong>Every Day</strong></label><div class="row" ng-show="!timeline.everyDay"><div class="col-sm-4"><div class="form-group"><label class="control-label">Start Date</label><div class="input-group"><input type="text" id="startDate" name="startDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.startDate" is-open="datepickers.startDate" min-date="today" datepicker-options="dateOptions" datepicker-localdate="{{timeline.useLocaldate}}" ng-required="!timeline.everyDay" close-text="Close"> <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openDatepicker($event, \'startDate\')"><i class="fa fa-calendar"></i></button></span></div></div></div><div class="col-sm-4"><div class="form-group"><label class="control-label">End Date</label><div class="input-group"><input type="text" id="endDate" name="endDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.endDate" is-open="datepickers.endDate" min-date="timeline.startDate" datepicker-options="dateOptions" datepicker-localdate="{{timeline.useLocaldate}}" larger-than-date="" close-text="Close"> <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openDatepicker($event, \'endDate\')"><i class="fa fa-calendar"></i></button></span></div></div></div></div><p class="text-danger" ng-show="timelineDetails.startDate.$invalid">Start Date is a required field</p><p class="text-danger" ng-show="timelineDetails.endDate.$invalid">End Date must occur after Start Date</p></section><section><label class="control-label half-bottom"><input type="checkbox" ng-model="timeline.allDay"> <strong>All Day</strong></label><div class="row form-group" ng-hide="timeline.allDay"><div class="col-sm-4"><label class="control-label">Start Time</label><div class="time-picker"><timepicker id="startTime" ng-model="timeline.startTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true" datepicker-localdate="{{timeline.useLocaldate}}"></timepicker></div></div><div class="col-sm-4"><label class="control-label">End Time</label><div class="time-picker"><timepicker id="endTime" ng-model="timeline.endTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true" datepicker-localdate="{{timeline.useLocaldate}}"></timepicker></div></div></div></section><section><label class="control-label half-bottom" for="recurrence"><strong>Recurrence</strong></label><div class="form-group"><label for="Daily" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Daily" id="Daily" name="recurrenceType"> Daily</label> <label for="Weekly" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Weekly" id="Weekly" name="recurrenceType"> Weekly</label> <label for="Monthly" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Monthly" id="Monthly" name="recurrenceType"> Monthly</label> <label for="Yearly" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Yearly" id="Yearly" name="recurrenceType"> Yearly</label></div><div class="recurrence-option"><div ng-if="timeline.recurrenceType === \'Daily\'"><div class="form-group"><label class="control-label">Every</label> <input type="number" class="form-control input-short" name="dailyRecurrenceFrequency" ng-model="recurrence.daily.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Daily\'"> <label class="control-label">Day(s)</label><p class="text-danger" ng-show="timelineDetails.dailyRecurrenceFrequency.$invalid">Daily Recurrence Frequency must be a number between 1 and 999</p></div></div><div ng-if="timeline.recurrenceType === \'Weekly\'"><div class="form-group"><label class="control-label">Every</label> <input type="number" class="form-control input-short" name="weeklyRecurrenceFrequency" ng-model="recurrence.weekly.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Weekly\'"> <label class="control-label">Week(s)</label><p class="text-danger" ng-show="timelineDetails.weeklyRecurrenceFrequency.$invalid">Weekly Recurrence Frequency must be a number between 1 and 999</p></div><div class="form-group timelineWeekdays"><label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.monday"> Monday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.tuesday"> Tuesday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.wednesday"> Wednesday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.thursday"> Thursday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.friday"> Friday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.saturday"> Saturday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.sunday"> Sunday</label></div></div><div ng-if="timeline.recurrenceType === \'Monthly\'"><div class="form-group"><label class="control-label"><input ng-model="recurrence.monthly.recurrenceAbsolute" ng-value="true" type="radio"> Day</label><fieldset ng-disabled="!recurrence.monthly.recurrenceAbsolute"><input type="number" class="form-control input-short" name="monthlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.monthly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === \'Monthly\' && recurrence.monthly.recurrenceAbsolute"> <label class="control-label">of Every</label> <input type="number" class="form-control input-short" name="monthlyAbsoluteRecurrenceFrequency" ng-model="recurrence.monthly.absolute.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Monthly\' && recurrence.monthly.recurrenceAbsolute"> <label class="control-label">Month(s)</label></fieldset><p class="text-danger" ng-show="timelineDetails.monthlyAbsoluteRecurrenceDayOfMonth.$invalid">Monthly Recurrence Day Of Month value must be between 1 and 31</p><p class="text-danger" ng-show="timelineDetails.monthlyAbsoluteRecurrenceFrequency.$invalid">Monthly Recurrence Frequency must be a number between 1 and 999</p></div><div class="form-group"><label class="control-label"><input ng-model="recurrence.monthly.recurrenceAbsolute" ng-value="false" type="radio"> The</label><fieldset ng-disabled="recurrence.monthly.recurrenceAbsolute"><week-dropdown week="recurrence.monthly.relative.recurrenceWeekOfMonth"></week-dropdown><weekday-dropdown weekday="recurrence.monthly.relative.recurrenceDayOfWeek"></weekday-dropdown><label class="control-label">of Every</label> <input type="number" class="form-control input-short" name="monthlyRelativeRecurrenceFrequency" ng-model="recurrence.monthly.relative.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Monthly\' && !recurrence.monthly.recurrenceAbsolute" <label="">Month(s)</fieldset><p class="text-danger" ng-show="timelineDetails.monthlyRelativeRecurrenceFrequency.$invalid">Monthly Relative Recurrence Frequency must be a number between 1 and 999</p></div></div><div ng-if="timeline.recurrenceType === \'Yearly\'"><div class="form-group"><label class="control-label"><input type="radio" ng-model="recurrence.yearly.recurrenceAbsolute" ng-value="true"> Every</label><fieldset ng-disabled="!recurrence.yearly.recurrenceAbsolute"><month-dropdown month="recurrence.yearly.absolute.recurrenceMonthOfYear"></month-dropdown><input type="number" class="form-control input-short" name="yearlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.yearly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === \'Yearly\' && recurrence.yearly.recurrenceAbsolute"></fieldset><p class="text-danger" ng-show="timelineDetails.yearlyAbsoluteRecurrenceDayOfMonth.$invalid">Yearly Recurrence Day Of Month value must be between 1 and 31</p></div><div class="form-group"><label class="control-label"><input type="radio" ng-model="recurrence.yearly.recurrenceAbsolute" ng-value="false"> The</label><fieldset ng-disabled="recurrence.yearly.recurrenceAbsolute"><week-dropdown week="recurrence.yearly.relative.recurrenceWeekOfMonth"></week-dropdown><weekday-dropdown weekday="recurrence.yearly.relative.recurrenceDayOfWeek"></weekday-dropdown><label class="control-label">of</label><month-dropdown month="recurrence.yearly.relative.recurrenceMonthOfYear"></month-dropdown></fieldset></div></div></div></section></div></form></div><div class="modal-footer"><button type="button" class="btn btn-primary btn-fixed-width" ng-click="save()" ng-disabled="timelineDetails.$invalid">Apply <i class="fa fa-white fa-check icon-right"></i></button> <button type="button" class="btn btn-default btn-fixed-width" ng-click="close()">Cancel <i class="fa fa-times icon-right"></i></button></div></div>');
+    '<div id="timelineModal"><div class="modal-header"><button type="button" class="close" ng-click="close()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title">Edit Timeline</h3></div><div class="modal-body"><form role="form" name="timelineDetails" novalidate=""><div class="timeline"><section><label class="control-label half-bottom" for="everyday"><input type="checkbox" ng-model="timeline.everyDay"> <strong>Every Day</strong></label><div class="row" ng-show="!timeline.everyDay"><div class="col-sm-4"><div class="form-group"><label class="control-label">Start Date</label><div class="input-group"><input type="text" id="startDate" name="startDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.startDate" is-open="datepickers.startDate" min-date="today" datepicker-options="dateOptions" datepicker-localdate="{{timeline.useLocaldate}}" ng-required="!timeline.everyDay" close-text="Close"> <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openDatepicker($event, \'startDate\')"><i class="fa fa-calendar"></i></button></span></div></div></div><div class="col-sm-4"><div class="form-group"><label class="control-label">End Date</label><div class="input-group"><input type="text" id="endDate" name="endDate" class="form-control" datepicker-popup="dd-MMM-yyyy" ng-model="timeline.endDate" is-open="datepickers.endDate" min-date="timeline.startDate" datepicker-options="dateOptions" datepicker-localdate="{{timeline.useLocaldate}}" larger-than-date="" close-text="Close"> <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openDatepicker($event, \'endDate\')"><i class="fa fa-calendar"></i></button></span></div></div></div></div><p class="text-danger" ng-show="timelineDetails.startDate.$invalid">Start Date is a required field</p><p class="text-danger" ng-show="timelineDetails.endDate.$invalid">End Date must occur after Start Date</p></section><section><label class="control-label half-bottom"><input type="checkbox" ng-model="timeline.allDay"> <strong>All Day</strong></label><div class="row form-group" ng-hide="timeline.allDay"><div class="col-sm-4"><label class="control-label">Start Time</label><div class="time-picker"><timepicker id="startTime" ng-model="timeline.startTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true" datepicker-localdate="{{timeline.useLocaldate}}"></timepicker></div></div><div class="col-sm-4"><label class="control-label">End Time</label><div class="time-picker"><timepicker id="endTime" ng-model="timeline.endTime" ng-change="changed()" hour-step="1" minute-step="15" show-meridian="true" datepicker-localdate="{{timeline.useLocaldate}}"></timepicker></div></div></div></section><section><label class="control-label half-bottom" for="recurrence"><strong>Recurrence</strong></label><div class="form-group"><label for="Daily" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Daily" id="Daily" name="recurrenceType"> Daily</label> <label for="Weekly" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Weekly" id="Weekly" name="recurrenceType"> Weekly</label> <label for="Monthly" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Monthly" id="Monthly" name="recurrenceType"> Monthly</label> <label for="Yearly" class="add-right control-label"><input type="radio" ng-model="timeline.recurrenceType" value="Yearly" id="Yearly" name="recurrenceType"> Yearly</label></div><div class="recurrence-option"><div ng-if="timeline.recurrenceType === \'Daily\'"><div class="form-group"><label class="control-label">Every</label> <input type="number" class="form-control input-short" name="dailyRecurrenceFrequency" ng-model="recurrence.daily.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Daily\'"> <label class="control-label">Day(s)</label><p class="text-danger" ng-show="timelineDetails.dailyRecurrenceFrequency.$invalid">Daily Recurrence Frequency must be a number between 1 and 999</p></div></div><div ng-if="timeline.recurrenceType === \'Weekly\'"><div class="form-group"><label class="control-label">Every</label> <input type="number" class="form-control input-short" name="weeklyRecurrenceFrequency" ng-model="recurrence.weekly.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Weekly\'"> <label class="control-label">Week(s)</label><p class="text-danger" ng-show="timelineDetails.weeklyRecurrenceFrequency.$invalid">Weekly Recurrence Frequency must be a number between 1 and 999</p></div><div class="form-group timelineWeekdays"><label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.monday"> Monday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.tuesday"> Tuesday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.wednesday"> Wednesday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.thursday"> Thursday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.friday"> Friday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.saturday"> Saturday</label> <label class="control-label"><input type="checkbox" ng-model="recurrence.weekly.sunday"> Sunday</label></div></div><div ng-if="timeline.recurrenceType === \'Monthly\'"><div class="form-group"><label class="control-label"><input ng-model="recurrence.monthly.recurrenceAbsolute" ng-value="true" type="radio"> Day</label><fieldset ng-disabled="!recurrence.monthly.recurrenceAbsolute"><input type="number" class="form-control input-short" name="monthlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.monthly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === \'Monthly\' && recurrence.monthly.recurrenceAbsolute"> <label class="control-label">of Every</label> <input type="number" class="form-control input-short" name="monthlyAbsoluteRecurrenceFrequency" ng-model="recurrence.monthly.absolute.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Monthly\' && recurrence.monthly.recurrenceAbsolute"> <label class="control-label">Month(s)</label></fieldset><p class="text-danger" ng-show="timelineDetails.monthlyAbsoluteRecurrenceDayOfMonth.$invalid">Monthly Recurrence Day Of Month value must be between 1 and 31</p><p class="text-danger" ng-show="timelineDetails.monthlyAbsoluteRecurrenceFrequency.$invalid">Monthly Recurrence Frequency must be a number between 1 and 999</p></div><div class="form-group"><label class="control-label"><input ng-model="recurrence.monthly.recurrenceAbsolute" ng-value="false" type="radio"> The</label><fieldset ng-disabled="recurrence.monthly.recurrenceAbsolute"><week-dropdown week="recurrence.monthly.relative.recurrenceWeekOfMonth"></week-dropdown><weekday-dropdown weekday="recurrence.monthly.relative.recurrenceDayOfWeek"></weekday-dropdown><label class="control-label">of Every</label> <input type="number" class="form-control input-short" name="monthlyRelativeRecurrenceFrequency" ng-model="recurrence.monthly.relative.recurrenceFrequency" min="1" max="999" ng-required="timeline.recurrenceType === \'Monthly\' && !recurrence.monthly.recurrenceAbsolute" <label="">Month(s)</fieldset><p class="text-danger" ng-show="timelineDetails.monthlyRelativeRecurrenceFrequency.$invalid">Monthly Relative Recurrence Frequency must be a number between 1 and 999</p></div></div><div ng-if="timeline.recurrenceType === \'Yearly\'"><div class="form-group"><label class="control-label"><input type="radio" ng-model="recurrence.yearly.recurrenceAbsolute" ng-value="true"> Every</label><fieldset ng-disabled="!recurrence.yearly.recurrenceAbsolute"><month-dropdown month="recurrence.yearly.absolute.recurrenceMonthOfYear"></month-dropdown><input type="number" class="form-control input-short" name="yearlyAbsoluteRecurrenceDayOfMonth" ng-model="recurrence.yearly.absolute.recurrenceDayOfMonth" min="1" max="31" ng-required="timeline.recurrenceType === \'Yearly\' && recurrence.yearly.recurrenceAbsolute"></fieldset><p class="text-danger" ng-show="timelineDetails.yearlyAbsoluteRecurrenceDayOfMonth.$invalid">Yearly Recurrence Day Of Month value must be between 1 and 31</p></div><div class="form-group"><label class="control-label"><input type="radio" ng-model="recurrence.yearly.recurrenceAbsolute" ng-value="false"> The</label><fieldset ng-disabled="recurrence.yearly.recurrenceAbsolute"><week-dropdown week="recurrence.yearly.relative.recurrenceWeekOfMonth"></week-dropdown><weekday-dropdown weekday="recurrence.yearly.relative.recurrenceDayOfWeek"></weekday-dropdown><label class="control-label">of</label><month-dropdown month="recurrence.yearly.relative.recurrenceMonthOfYear"></month-dropdown></fieldset></div></div></div></section></div></form></div><div class="modal-footer"><button type="button" class="btn btn-primary btn-fixed-width" ng-click="save()" ng-disabled="timelineDetails.$invalid">Apply <i class="fa fa-white fa-check icon-right"></i></button> <button type="button" class="btn btn-default btn-fixed-width" ng-click="close()">Cancel <i class="fa fa-times icon-right"></i></button></div></div>');
 }]);
 })();
 
@@ -529,7 +696,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/timeline-textbox.html',
-    '<label class="control-label control-label-secondary add-left"><input ng-model="timeline.always" type="checkbox"> Always</label><div id="timelineTextbox" class="content-box-editable remove-bottom clickable" ng-click="openModal()" ng-show="!timeline.always"><div class="label label-tag">{{timeline.label}}</div></div>');
+    '<label class="control-label control-label-secondary add-left"><input ng-model="timeline.always" type="checkbox"> Always</label><div id="timelineTextbox" class="content-box-editable remove-bottom clickable" ng-click="openModal()" ng-show="!timeline.always"><div class="label label-tag"><span id="timelineLabel" timeline-description="" timeline="timeline">{{timeline.label}}</span></div></div>');
 }]);
 })();
 
