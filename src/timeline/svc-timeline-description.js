@@ -36,11 +36,20 @@ angular.module("risevision.common.components.timeline.services")
           "December"
         ];
 
-        var _filterDateFormat = function (date, format) {
-          return $filter("date")(new Date(date), format);
+        var _filterDateFormat = function (date, useLocaldate, format) {
+          var formattedDate = "";
+          var dateObject = new Date(date);
+          if (useLocaldate) {
+            dateObject.setMinutes(dateObject.getMinutes() + dateObject.getTimezoneOffset());
+            formattedDate = $filter("date")(dateObject, format);
+          } else {
+            formattedDate = $filter("date")(dateObject, format);
+          }
+
+          return formattedDate;
         };
 
-        this.updateLabel = function (timeline, recurrence) {
+        this.updateLabel = function (timeline) {
           var label = "";
 
           if (!timeline.always) {
@@ -49,12 +58,13 @@ angular.module("risevision.common.components.timeline.services")
             if (timeline.startDate) {
               var shortFormat = "dd-MMM-yyyy";
               label = label + _filterDateFormat(timeline.startDate,
+                timeline.useLocaldate,
                 shortFormat) + " ";
 
               if (timeline.endDate) {
                 label = label + LABEL.TO + " " + _filterDateFormat(
                   timeline
-                  .endDate,
+                  .endDate, timeline.useLocaldate,
                   shortFormat) + " ";
               }
 
@@ -63,13 +73,14 @@ angular.module("risevision.common.components.timeline.services")
             if (timeline.startTime) {
               var shortTimeformat = "hh:mm a";
               label = label + _filterDateFormat(timeline.startTime,
+                timeline.useLocaldate,
                 shortTimeformat) +
                 " ";
 
               if (timeline.endTime) {
                 label = label + LABEL.TO + " " + _filterDateFormat(
                   timeline
-                  .endTime,
+                  .endTime, timeline.useLocaldate,
                   shortTimeformat) + " ";
               }
             }
