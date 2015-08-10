@@ -15,7 +15,7 @@
               <i ng-if="search.sortBy == 'name'" class="fa" ng-class="{false: 'fa-long-arrow-up', true: 'fa-long-arrow-down'}[search.reverse]"></i>
               <!-- end ngIf: search.sortBy == 'name' -->
             </th>
-            <th id="tableHeaderAddress" class="text-right">
+            <th id="tableHeaderAddress" class="hidden-xs">
               Address
             </th>
           </tr>
@@ -23,8 +23,8 @@
 
         <tbody>
           <tr class="clickable-row display" ng-click="toggleDisplay(display.id);" ng-class="{'active' : isSelected(display.id) }" ng-repeat="display in displays.list">
-            <td id="displayName-{{display.id}}" class="display-name">{{display.name}}</td>
-            <td id="displayAddress-{{display.id}}" class="display-address"><span class="text-muted">{{display.address}}</span></td>
+            <td id="displayName-{{display.id}}" class="display-name"><span>{{display.name}}</span></td>
+            <td id="displayAddress-{{display.id}}" class="display-address hidden-xs"><span class="text-muted">{{display.address}}</span></td>
           </tr>
         </tbody>
 

@@ -44,7 +44,7 @@ angular.module("risevision.common.components.distribution-selector")
             var modalInstance = $modal.open({
               templateUrl: "distribution-selector/distribution-modal.html",
               controller: "selectDistributionModal",
-              size: "md",
+              size: "lg",
               resolve: {
                 distribution: function () {
                   return $scope.distribution;
