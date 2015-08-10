@@ -112,7 +112,7 @@
         });
       });
 
-      it("Checking all displays checkbox should set distributeToAll true and should have no displays on distribution ", function () {
+      it("Checking all displays checkbox should set distributeToAll true", function () {
         element.all(by.css(".display .display-name")).then(function (elements) {
           elements[1].click();
           elements[2].click();
@@ -123,7 +123,6 @@
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
 
           element(by.model("distributeToAll")).click();
-          expect(element(by.id("distributionValue")).getText()).to.eventually.equal('[]');
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('true');
         });
 

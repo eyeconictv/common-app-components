@@ -109,11 +109,6 @@ angular.module("risevision.common.components.distribution-selector")
 
           _refreshDistributionSelectionMessage();
 
-          $scope.cleanSelection = function () {
-            $scope.distribution = [];
-            _refreshDistributionSelectionMessage();
-          };
-
           $scope.manage = function () {
 
             var modalInstance = $modal.open({
@@ -282,6 +277,6 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-selector.html',
-    '<div class="form-group"><label class="control-label add-right">Distribution</label> <label class="control-label control-label-secondary"><input type="checkbox" ng-model="distributeToAll" ng-checked="distributeToAll" class="ng-valid ng-dirty" checked="checked" ng-change="cleanSelection()"> <span id="distributeToAllText">All Displays</span></label><div id="distributionField" class="content-box-editable clickable" ng-click="manage()" ng-if="!distributeToAll"><div class="label label-tag"><span id="distributionFieldText" ng-bind="distributionSelectionMessage"></span></div></div></div>');
+    '<div class="form-group"><label class="control-label add-right">Distribution</label> <label class="control-label control-label-secondary"><input type="checkbox" ng-model="distributeToAll" ng-checked="distributeToAll" class="ng-valid ng-dirty" checked="checked"> <span id="distributeToAllText">All Displays</span></label><div id="distributionField" class="content-box-editable clickable" ng-click="manage()" ng-if="!distributeToAll"><div class="label label-tag"><span id="distributionFieldText" ng-bind="distributionSelectionMessage"></span></div></div></div>');
 }]);
 })();

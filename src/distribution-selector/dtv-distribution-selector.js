@@ -34,11 +34,6 @@ angular.module("risevision.common.components.distribution-selector")
 
           _refreshDistributionSelectionMessage();
 
-          $scope.cleanSelection = function () {
-            $scope.distribution = [];
-            _refreshDistributionSelectionMessage();
-          };
-
           $scope.manage = function () {
 
             var modalInstance = $modal.open({
