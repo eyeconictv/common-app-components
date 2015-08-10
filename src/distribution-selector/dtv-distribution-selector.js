@@ -11,25 +11,33 @@ angular.module("risevision.common.components.distribution-selector")
         },
         templateUrl: "distribution-selector/distribution-selector.html",
         link: function ($scope) {
-
-          var getDistributionSelectionMessage = function () {
+          if (typeof $scope.distributeToAll === "undefined") {
+            $scope.distributeToAll = true;
+          }
+          var _getDistributionSelectionMessage = function () {
             var message = "0 Displays";
-            if ($scope.distributeToAll) {
-              message = "All Displays";
-            } else {
-              if ($scope.distribution) {
-                if ($scope.distribution.length === 1) {
-                  message = "1 Display";
-                } else {
-                  message = $scope.distribution.length + " Displays";
-                }
+
+            if ($scope.distribution) {
+              if ($scope.distribution.length === 1) {
+                message = "1 Display";
+              } else {
+                message = $scope.distribution.length + " Displays";
               }
             }
             return message;
           };
 
-          $scope.distributionSelectionMessage =
-            getDistributionSelectionMessage();
+          var _refreshDistributionSelectionMessage = function () {
+            $scope.distributionSelectionMessage =
+              _getDistributionSelectionMessage();
+          };
+
+          _refreshDistributionSelectionMessage();
+
+          $scope.cleanSelection = function () {
+            $scope.distribution = [];
+            _refreshDistributionSelectionMessage();
+          };
 
           $scope.manage = function () {
 
@@ -40,18 +48,13 @@ angular.module("risevision.common.components.distribution-selector")
               resolve: {
                 distribution: function () {
                   return $scope.distribution;
-                },
-                distributeToAll: function () {
-                  return $scope.distributeToAll;
                 }
               }
             });
 
-            modalInstance.result.then(function (distributionDetails) {
-              $scope.distribution = distributionDetails[0];
-              $scope.distributeToAll = distributionDetails[1];
-              $scope.distributionSelectionMessage =
-                getDistributionSelectionMessage();
+            modalInstance.result.then(function (distribution) {
+              $scope.distribution = distribution;
+              _refreshDistributionSelectionMessage();
             });
           };
         } //link()
