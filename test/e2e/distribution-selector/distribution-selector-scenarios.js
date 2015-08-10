@@ -14,11 +14,29 @@
     });
 
     it("Should load", function () {
-      expect(element(by.css("#distributionField")).isPresent())
+      expect(element(by.model("distributeToAll")).isDisplayed()).to.eventually.be.true;
+      expect(element(by.model("distributeToAll")).isSelected()).to.eventually.be.true;
+      expect(element(by.id("distributeToAllText")).getText()).to.eventually.equal("All Displays");
+    });
+
+    it("Should show the distribution field", function () {
+      element(by.model("distributeToAll")).click();
+
+      expect(element(by.css("#distributionField")).isDisplayed())
         .to.eventually.be.true;
     });
 
+    it("Should hide the distribution field", function () {
+      element(by.model("distributeToAll")).click();
+      element(by.model("distributeToAll")).click();
+
+      expect(element(by.css("#distributionField")).isPresent())
+        .to.eventually.be.false;
+    });
+
+
     it("Should open dialog", function () {
+      element(by.model("distributeToAll")).click();
       element(by.css("#distributionField")).click();
 
       expect(element(by.css(".modal-dialog .modal-content")).isPresent())
@@ -34,6 +52,7 @@
 
     describe("Distribution selection", function() {
       beforeEach(function() {
+        element(by.model("distributeToAll")).click();
         element(by.css("#distributionField")).click();
       });
 
@@ -94,13 +113,19 @@
       });
 
       it("Checking all displays checkbox should set distributeToAll true and should have no displays on distribution ", function () {
-        browser.sleep(500);
-        element(by.id("allDisplaysCheckbox")).click();
-        element(by.id("applyButton")).click();
+        element.all(by.css(".display .display-name")).then(function (elements) {
+          elements[1].click();
+          elements[2].click();
+          element(by.id("applyButton")).click();
+          browser.sleep(500);
+          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays');
+          expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2","id3"]');
+          expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
 
-        expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('All Displays');
-        expect(element(by.id("distributionValue")).getText()).to.eventually.equal('[]');
-        expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('true');
+          element(by.model("distributeToAll")).click();
+          expect(element(by.id("distributionValue")).getText()).to.eventually.equal('[]');
+          expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('true');
+        });
 
       });
 

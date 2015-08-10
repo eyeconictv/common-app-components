@@ -78,7 +78,6 @@ describe('controller: Distribution List', function() {
     expect($scope).to.be.truely;
 
     expect($scope.toggleDisplay).to.be.a('function');
-    expect($scope.cleanSelection).to.be.a('function');
     expect($scope.isSelected).to.be.a('function');
 
     expect($scope.sortBy).to.be.a('function');
@@ -251,18 +250,6 @@ describe('controller: Distribution List', function() {
 
       setTimeout(function(){
         expect($scope.parameters.distribution).to.not.contain('displayId');
-
-        done();
-      },10);
-    });
-
-    it('should clean the distribution',function(done){
-      $scope.toggleDisplay('displayId');
-      $scope.cleanSelection();
-      $scope.$digest();
-
-      setTimeout(function(){
-        expect($scope.parameters.distribution).to.be.empty;
 
         done();
       },10);

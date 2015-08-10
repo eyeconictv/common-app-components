@@ -86,25 +86,33 @@ angular.module("risevision.common.components.distribution-selector")
         },
         templateUrl: "distribution-selector/distribution-selector.html",
         link: function ($scope) {
-
-          var getDistributionSelectionMessage = function () {
+          if (typeof $scope.distributeToAll === "undefined") {
+            $scope.distributeToAll = true;
+          }
+          var _getDistributionSelectionMessage = function () {
             var message = "0 Displays";
-            if ($scope.distributeToAll) {
-              message = "All Displays";
-            } else {
-              if ($scope.distribution) {
-                if ($scope.distribution.length === 1) {
-                  message = "1 Display";
-                } else {
-                  message = $scope.distribution.length + " Displays";
-                }
+
+            if ($scope.distribution) {
+              if ($scope.distribution.length === 1) {
+                message = "1 Display";
+              } else {
+                message = $scope.distribution.length + " Displays";
               }
             }
             return message;
           };
 
-          $scope.distributionSelectionMessage =
-            getDistributionSelectionMessage();
+          var _refreshDistributionSelectionMessage = function () {
+            $scope.distributionSelectionMessage =
+              _getDistributionSelectionMessage();
+          };
+
+          _refreshDistributionSelectionMessage();
+
+          $scope.cleanSelection = function () {
+            $scope.distribution = [];
+            _refreshDistributionSelectionMessage();
+          };
 
           $scope.manage = function () {
 
@@ -115,18 +123,13 @@ angular.module("risevision.common.components.distribution-selector")
               resolve: {
                 distribution: function () {
                   return $scope.distribution;
-                },
-                distributeToAll: function () {
-                  return $scope.distributeToAll;
                 }
               }
             });
 
-            modalInstance.result.then(function (distributionDetails) {
-              $scope.distribution = distributionDetails[0];
-              $scope.distributeToAll = distributionDetails[1];
-              $scope.distributionSelectionMessage =
-                getDistributionSelectionMessage();
+            modalInstance.result.then(function (distribution) {
+              $scope.distribution = distribution;
+              _refreshDistributionSelectionMessage();
             });
           };
         } //link()
@@ -210,9 +213,7 @@ angular.module("risevision.common.components.distribution-selector")
         }
       };
 
-      $scope.cleanSelection = function () {
-        $scope.parameters.distribution = [];
-      };
+
 
 
       $scope.isSelected = function (displayId) {
@@ -231,22 +232,16 @@ angular.module("risevision.common.components.distribution-selector")
 
 angular.module("risevision.common.components.distribution-selector")
   .controller("selectDistributionModal", ["$scope", "$modalInstance",
-    "distribution", "distributeToAll",
-    function ($scope, $modalInstance, distribution, distributeToAll) {
+    "distribution",
+    function ($scope, $modalInstance, distribution) {
       $scope.parameters = {};
 
       $scope.parameters.distribution = (distribution) ? angular.copy(
         distribution) : [];
-      $scope.parameters.distributeToAll = (distributeToAll) ? distributeToAll :
-        false;
 
       $scope.apply = function () {
         console.debug("Selected Distribution: ", $scope.parameters.distribution);
-        console.debug("Selected Distribution distributeToAll: ", $scope.parameters
-          .distributeToAll);
-        $modalInstance.close([$scope.parameters.distribution, $scope.parameters
-          .distributeToAll
-        ]);
+        $modalInstance.close($scope.parameters.distribution);
       };
 
       $scope.dismiss = function () {
@@ -263,7 +258,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-list.html',
-    '<div ng-controller="distributionListController"><div class="form-group"><label class="control-label"><input id="allDisplaysCheckbox" type="checkbox" ng-model="parameters.distributeToAll" class="add-right" ng-change="cleanSelection()"> All Displays</label></div><search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter><div class="content-box half-top"><div class="scrollable-list" scrolling-list="load()" rv-spinner="" rv-spinner-key="display-list-loader" rv-spinner-start-active="1"><table id="displayListTable" class="table-2 table-hover" ng-class="{ \'animated fadeIn table-selector multiple-selector\': !parameters.distributeToAll}"><thead><tr><th id="tableHeaderName" ng-click="sortBy(\'name\')" class="clickable">Name<i ng-if="search.sortBy == \'name\'" class="fa" ng-class="{false: \'fa-long-arrow-up\', true: \'fa-long-arrow-down\'}[search.reverse]"></i></th><th id="tableHeaderAddress" class="text-right">Address</th></tr></thead><tbody><tr class="clickable-row display" ng-click="toggleDisplay(display.id);" ng-class="{\'active\' : isSelected(display.id) }" ng-repeat="display in displays.list"><td id="displayName-{{display.id}}" class="display-name">{{display.name}}</td><td id="displayAddress-{{display.id}}" class="display-address"><span class="text-muted">{{display.address}}</span></td></tr></tbody></table></div></div></div>');
+    '<div ng-controller="distributionListController"><search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter><div class="content-box half-top"><div class="scrollable-list" scrolling-list="load()" rv-spinner="" rv-spinner-key="display-list-loader" rv-spinner-start-active="1"><table id="displayListTable" class="table-2 table-hover table-selector multiple-selector animated fadeIn"><thead><tr><th id="tableHeaderName" ng-click="sortBy(\'name\')" class="clickable">Name<i ng-if="search.sortBy == \'name\'" class="fa" ng-class="{false: \'fa-long-arrow-up\', true: \'fa-long-arrow-down\'}[search.reverse]"></i></th><th id="tableHeaderAddress" class="text-right">Address</th></tr></thead><tbody><tr class="clickable-row display" ng-click="toggleDisplay(display.id);" ng-class="{\'active\' : isSelected(display.id) }" ng-repeat="display in displays.list"><td id="displayName-{{display.id}}" class="display-name">{{display.name}}</td><td id="displayAddress-{{display.id}}" class="display-address"><span class="text-muted">{{display.address}}</span></td></tr></tbody></table></div></div></div>');
 }]);
 })();
 
@@ -287,6 +282,6 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-selector.html',
-    '<label class="control-label">Distribution</label><div id="distributionField" class="content-box-editable remove-bottom clickable" ng-click="manage()"><div class="label label-tag"><span id="distributionFieldText" ng-bind="distributionSelectionMessage"></span></div></div>');
+    '<div class="form-group"><label class="control-label add-right">Distribution</label> <label class="control-label control-label-secondary"><input type="checkbox" ng-model="distributeToAll" ng-checked="distributeToAll" class="ng-valid ng-dirty" checked="checked" ng-change="cleanSelection()"> <span id="distributeToAllText">All Displays</span></label><div id="distributionField" class="content-box-editable clickable" ng-click="manage()" ng-if="!distributeToAll"><div class="label label-tag"><span id="distributionFieldText" ng-bind="distributionSelectionMessage"></span></div></div></div>');
 }]);
 })();

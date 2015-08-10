@@ -1,7 +1,4 @@
 <div ng-controller="distributionListController">
-  <div class="form-group">
-    <label class="control-label"><input id="allDisplaysCheckbox" type="checkbox" ng-model="parameters.distributeToAll" class="add-right" ng-change="cleanSelection()" /> All Displays</label>
-  </div>
   <search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter>
   <div class="content-box half-top">
     <div class="scrollable-list"
@@ -9,7 +6,7 @@
          rv-spinner rv-spinner-key="display-list-loader"
          rv-spinner-start-active="1"
       >
-      <table id="displayListTable" class="table-2 table-hover" ng-class="{ 'animated fadeIn table-selector multiple-selector': !parameters.distributeToAll}">
+      <table id="displayListTable" class="table-2 table-hover table-selector multiple-selector animated fadeIn" >
         <thead>
           <tr>
             <th id="tableHeaderName" ng-click="sortBy('name')" class="clickable">

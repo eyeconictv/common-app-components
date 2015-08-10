@@ -74,9 +74,7 @@ angular.module("risevision.common.components.distribution-selector")
         }
       };
 
-      $scope.cleanSelection = function () {
-        $scope.parameters.distribution = [];
-      };
+
 
 
       $scope.isSelected = function (displayId) {

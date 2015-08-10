@@ -16,26 +16,22 @@ describe('controller: Edit Distribution Modal', function() {
 
     $provide.value('distribution', distributionValue);
 
-    $provide.value('distributeToAll', toAll);
   }));
-  var $scope, $modalInstance, $modalInstanceDismissSpy, $modalInstanceCloseSpy, distributionValue, toAll, distribution, distributeToAll;
+  var $scope, $modalInstance, $modalInstanceDismissSpy, $modalInstanceCloseSpy, distributionValue, distribution;
 
   describe('distribution empty and distribute to all false' ,function () {
     beforeEach(function(){
       distributionValue = [];
-      toAll = false;
       inject(function($injector, $rootScope, $controller){
         $scope = $rootScope.$new();
         $modalInstance = $injector.get('$modalInstance');
         $modalInstanceDismissSpy = sinon.spy($modalInstance, 'dismiss');
         $modalInstanceCloseSpy = sinon.spy($modalInstance, 'close');
         distribution = $injector.get('distribution');
-        distributeToAll = $injector.get('distributeToAll');
         $controller('selectDistributionModal', {
           $scope : $scope,
           $modalInstance : $modalInstance,
-          distribution: distribution,
-          distributeToAll: distributeToAll
+          distribution: distribution
         });
         $scope.$digest();
       });
@@ -49,7 +45,6 @@ describe('controller: Edit Distribution Modal', function() {
 
       expect($scope.parameters).to.be.a('object');
       expect($scope.parameters.distribution).to.be.empty;
-      expect($scope.parameters.distributeToAll).to.be.false;
 
     });
 
@@ -57,7 +52,7 @@ describe('controller: Edit Distribution Modal', function() {
       $scope.apply();
       $scope.$digest();
 
-      $modalInstanceCloseSpy.should.have.been.calledWith([distribution, distributeToAll]);
+      $modalInstanceCloseSpy.should.have.been.calledWith(distribution);
     });
 
     it('should dismiss modal when clicked on close with no action',function(){
@@ -71,19 +66,16 @@ describe('controller: Edit Distribution Modal', function() {
   describe('distribution not empty and distribute to all false' ,function () {
     beforeEach(function(){
       distributionValue = ['display1', 'display2'];
-      toAll = false;
       inject(function($injector, $rootScope, $controller){
         $scope = $rootScope.$new();
         $modalInstance = $injector.get('$modalInstance');
         $modalInstanceDismissSpy = sinon.spy($modalInstance, 'dismiss');
         $modalInstanceCloseSpy = sinon.spy($modalInstance, 'close');
         distribution = $injector.get('distribution');
-        distributeToAll = $injector.get('distributeToAll');
         $controller('selectDistributionModal', {
           $scope : $scope,
           $modalInstance : $modalInstance,
-          distribution: distribution,
-          distributeToAll: distributeToAll
+          distribution: distribution
         });
         $scope.$digest();
       });
@@ -97,7 +89,6 @@ describe('controller: Edit Distribution Modal', function() {
 
       expect($scope.parameters).to.be.a('object');
       expect($scope.parameters.distribution).to.contain('display1', 'display2');
-      expect($scope.parameters.distributeToAll).to.be.false;
 
     });
 
@@ -105,7 +96,7 @@ describe('controller: Edit Distribution Modal', function() {
       $scope.apply();
       $scope.$digest();
 
-      $modalInstanceCloseSpy.should.have.been.calledWith([distribution, distributeToAll]);
+      $modalInstanceCloseSpy.should.have.been.calledWith(distribution);
     });
 
     it('should dismiss modal when clicked on close with no action',function(){
@@ -119,19 +110,16 @@ describe('controller: Edit Distribution Modal', function() {
   describe('distribution empty and distribute to all true' ,function () {
     beforeEach(function(){
       distributionValue = [];
-      toAll = true;
       inject(function($injector, $rootScope, $controller){
         $scope = $rootScope.$new();
         $modalInstance = $injector.get('$modalInstance');
         $modalInstanceDismissSpy = sinon.spy($modalInstance, 'dismiss');
         $modalInstanceCloseSpy = sinon.spy($modalInstance, 'close');
         distribution = $injector.get('distribution');
-        distributeToAll = $injector.get('distributeToAll');
         $controller('selectDistributionModal', {
           $scope : $scope,
           $modalInstance : $modalInstance,
-          distribution: distribution,
-          distributeToAll: distributeToAll
+          distribution: distribution
         });
         $scope.$digest();
       });
@@ -145,7 +133,6 @@ describe('controller: Edit Distribution Modal', function() {
 
       expect($scope.parameters).to.be.a('object');
       expect($scope.parameters.distribution).to.be.empty;
-      expect($scope.parameters.distributeToAll).to.be.true;
 
     });
 
@@ -153,7 +140,7 @@ describe('controller: Edit Distribution Modal', function() {
       $scope.apply();
       $scope.$digest();
 
-      $modalInstanceCloseSpy.should.have.been.calledWith([distribution, distributeToAll]);
+      $modalInstanceCloseSpy.should.have.been.calledWith(distribution);
     });
 
     it('should dismiss modal when clicked on close with no action',function(){
@@ -167,19 +154,16 @@ describe('controller: Edit Distribution Modal', function() {
   describe('distribution undefined and distribute to all true' ,function () {
     beforeEach(function(){
       distributionValue = undefined;
-      toAll = true;
       inject(function($injector, $rootScope, $controller){
         $scope = $rootScope.$new();
         $modalInstance = $injector.get('$modalInstance');
         $modalInstanceDismissSpy = sinon.spy($modalInstance, 'dismiss');
         $modalInstanceCloseSpy = sinon.spy($modalInstance, 'close');
         distribution = $injector.get('distribution');
-        distributeToAll = $injector.get('distributeToAll');
         $controller('selectDistributionModal', {
           $scope : $scope,
           $modalInstance : $modalInstance,
-          distribution: distribution,
-          distributeToAll: distributeToAll
+          distribution: distribution
         });
         $scope.$digest();
       });
@@ -193,7 +177,6 @@ describe('controller: Edit Distribution Modal', function() {
 
       expect($scope.parameters).to.be.a('object');
       expect($scope.parameters.distribution).to.be.empty;
-      expect($scope.parameters.distributeToAll).to.be.true;
 
     });
 
@@ -201,7 +184,7 @@ describe('controller: Edit Distribution Modal', function() {
       $scope.apply();
       $scope.$digest();
 
-      $modalInstanceCloseSpy.should.have.been.calledWith([[], distributeToAll]);
+      $modalInstanceCloseSpy.should.have.been.calledWith([]);
     });
 
     it('should dismiss modal when clicked on close with no action',function(){
