@@ -1,8 +1,8 @@
 (function (angular) {
   "use strict";
   angular.module("risevision.common.components.timeline")
-    .directive("timelineTextbox", ["$modal",
-      function ($modal) {
+    .directive("timelineTextbox", ["$modal", "TimelineFactory",
+      function ($modal, TimelineFactory) {
         return {
           restrict: "E",
           scope: {
@@ -23,22 +23,21 @@
           },
           templateUrl: "timeline/timeline-textbox.html",
           link: function ($scope) {
-            $scope.timeline = {
-              useLocaldate: $scope.useLocaldate,
-              always: !$scope.timeDefined,
-              startDate: $scope.startDate,
-              endDate: $scope.endDate,
-              startTime: $scope.startTime,
-              endTime: $scope.endTime,
-              recurrenceType: $scope.recurrenceType,
-              recurrenceFrequency: $scope.recurrenceFrequency,
-              recurrenceAbsolute: $scope.recurrenceAbsolute,
-              recurrenceDayOfWeek: $scope.recurrenceDayOfWeek,
-              recurrenceDayOfMonth: $scope.recurrenceDayOfMonth,
-              recurrenceWeekOfMonth: $scope.recurrenceWeekOfMonth,
-              recurrenceMonthOfYear: $scope.recurrenceMonthOfYear,
-              recurrenceDaysOfWeek: $scope.recurrenceDaysOfWeek
-            };
+            $scope.timeline = TimelineFactory.getTimeline(
+              $scope.useLocaldate,
+              $scope.timeDefined,
+              $scope.startDate,
+              $scope.endDate,
+              $scope.startTime,
+              $scope.endTime,
+              $scope.recurrenceType,
+              $scope.recurrenceFrequency,
+              $scope.recurrenceAbsolute,
+              $scope.recurrenceDayOfWeek,
+              $scope.recurrenceDayOfMonth,
+              $scope.recurrenceWeekOfMonth,
+              $scope.recurrenceMonthOfYear,
+              $scope.recurrenceDaysOfWeek);
 
             $scope.$watch("timeline.always", function (newValue) {
               $scope.timeDefined = !newValue;

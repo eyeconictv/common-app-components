@@ -4,31 +4,32 @@ angular.module("risevision.common.components.timeline.services")
   .factory("TimelineFactory", [
 
     function () {
-      return function (timeline) {
-        var RECURRENCE = {
-          DAILY: "Daily",
-          WEEKLY: "Weekly",
-          MONTHLY: "Monthly",
-          YEARLY: "Yearly"
-        };
-        var _getDateTime = function (hour, minute) {
-          var d = new Date();
+      var RECURRENCE = {
+        DAILY: "Daily",
+        WEEKLY: "Weekly",
+        MONTHLY: "Monthly",
+        YEARLY: "Yearly"
+      };
 
-          if (_timeline.useLocaldate) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(),
-              hour, minute, 0));
-          } else {
-            d.setHours(hour);
-            d.setMinutes(minute);
-            d.setSeconds(0);
+      var _getDateTime = function (hour, minute, useLocaldate) {
+        var d = new Date();
 
-            d = d.toLocaleDateString("en-US") + " " +
-              d.toLocaleTimeString("en-US");
-          }
+        if (useLocaldate) {
+          d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(),
+            hour, minute, 0));
+        } else {
+          d.setHours(hour);
+          d.setMinutes(minute);
+          d.setSeconds(0);
 
-          return d;
-        };
+          d = d.toLocaleDateString("en-US") + " " +
+            d.toLocaleTimeString("en-US");
+        }
 
+        return d;
+      };
+
+      var _service = function (timeline) {
         var _timeline = timeline;
         var _recurrence = {
           daily: {
@@ -120,37 +121,10 @@ angular.module("risevision.common.components.timeline.services")
         };
 
         var _init = function () {
-          _timeline.everyDay = true && (!_timeline.startDate || false);
-
-          _timeline.startDate = _timeline.startDate || _getDateTime(0, 0);
-          _timeline.endDate = _timeline.endDate || null;
-          _timeline.startTime = _timeline.startTime || null;
-          _timeline.endTime = _timeline.endTime || null;
-
-          _timeline.allDay = true &&
-            (!_timeline.startTime && !_timeline.endTime || false);
-
           if (_timeline.allDay) {
-            _timeline.startTime = _getDateTime(8, 0);
-            _timeline.endTime = _getDateTime(17, 30);
+            _timeline.startTime = _getDateTime(8, 0, _timeline.useLocaldate);
+            _timeline.endTime = _getDateTime(17, 30, _timeline.useLocaldate);
           }
-
-          _timeline.recurrenceType = _timeline.recurrenceType ||
-            RECURRENCE.DAILY;
-          _timeline.recurrenceFrequency = _timeline.recurrenceFrequency ||
-            1;
-          _timeline.recurrenceAbsolute =
-            _timeline.hasOwnProperty("recurrenceAbsolute") ?
-            _timeline.recurrenceAbsolute : true;
-          _timeline.recurrenceDayOfWeek = _timeline.recurrenceDayOfWeek ||
-            0;
-          _timeline.recurrenceDayOfMonth = _timeline.recurrenceDayOfMonth ||
-            1;
-          _timeline.recurrenceWeekOfMonth = _timeline.recurrenceWeekOfMonth ||
-            0;
-          _timeline.recurrenceMonthOfYear = _timeline.recurrenceMonthOfYear ||
-            0;
-          _timeline.recurrenceDaysOfWeek = _timeline.recurrenceDaysOfWeek || [];
 
           _initRecurrence();
         };
@@ -232,5 +206,45 @@ angular.module("risevision.common.components.timeline.services")
         this.recurrence = _recurrence;
         this.timeline = _timeline;
       };
+
+      _service.getTimeline = function (useLocaldate,
+        timeDefined,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        recurrenceType,
+        recurrenceFrequency,
+        recurrenceAbsolute,
+        recurrenceDayOfWeek,
+        recurrenceDayOfMonth,
+        recurrenceWeekOfMonth,
+        recurrenceMonthOfYear,
+        recurrenceDaysOfWeek) {
+
+        var timeline = {
+          useLocaldate: useLocaldate,
+          always: !timeDefined,
+          everyDay: true && (!startDate || false),
+          startDate: startDate || _getDateTime(0, 0, useLocaldate),
+          endDate: endDate || null,
+          allDay: true && (!startTime && !endTime || false),
+          startTime: startTime || null,
+          endTime: endTime || null,
+          recurrenceType: recurrenceType || RECURRENCE.DAILY,
+          recurrenceFrequency: recurrenceFrequency || 1,
+          recurrenceAbsolute: typeof recurrenceAbsolute !== "undefined" ?
+            recurrenceAbsolute : true,
+          recurrenceDayOfWeek: recurrenceDayOfWeek || 0,
+          recurrenceDayOfMonth: recurrenceDayOfMonth || 1,
+          recurrenceWeekOfMonth: recurrenceWeekOfMonth || 0,
+          recurrenceMonthOfYear: recurrenceMonthOfYear || 0,
+          recurrenceDaysOfWeek: recurrenceDaysOfWeek || []
+        };
+
+        return timeline;
+      };
+
+      return _service;
     }
   ]);
