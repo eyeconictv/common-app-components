@@ -54,20 +54,20 @@ angular.module("risevision.common.components.timeline.services")
 
           if (!timeline.always) {
 
-
-            if (timeline.startDate) {
+            if (!timeline.everyDay) {
               var shortFormat = "dd-MMM-yyyy";
-              label = label + _filterDateFormat(timeline.startDate,
-                timeline.useLocaldate,
-                shortFormat) + " ";
 
-              if (timeline.endDate) {
-                label = label + LABEL.TO + " " + _filterDateFormat(
-                  timeline
-                  .endDate, timeline.useLocaldate,
+              if (timeline.startDate) {
+                label = label + _filterDateFormat(timeline.startDate,
+                  timeline.useLocaldate,
                   shortFormat) + " ";
               }
 
+              if (timeline.endDate) {
+                label = label + LABEL.TO + " " + _filterDateFormat(
+                  timeline.endDate, timeline.useLocaldate,
+                  shortFormat) + " ";
+              }
             }
 
             if (timeline.startTime) {
