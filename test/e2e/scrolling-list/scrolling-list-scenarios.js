@@ -15,21 +15,21 @@
     
     it("Should load rows", function() {
       expect(element.all(by.css(".table-2 .list-row")).count())
-        .to.eventually.equal(10);      
+        .to.eventually.equal(20);      
     });
 
-    xdescribe("large list: ", function() {
+    describe("large list: ", function() {
       beforeEach(function (done) {
         element(by.id("scrollBottom")).click();
     
         setTimeout(function() {
           done();
-        }, 500);
+        }, 250);
       });
       
       it("Should load more rows on scroll", function() {
         expect(element.all(by.css(".table-2 .list-row")).count())
-          .to.eventually.equal(20);
+          .to.eventually.equal(40);
       });
     });
     
@@ -45,7 +45,7 @@
 
       it("Should not load more rows on scroll", function() {
         expect(element.all(by.css(".table-2 .list-row")).count())
-          .to.eventually.equal(10);            
+          .to.eventually.equal(20);            
       });
     });
     
