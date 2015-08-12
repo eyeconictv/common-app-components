@@ -39,17 +39,19 @@
     angular.module("testapp", ["risevision.common.components.scrolling-list"])
       .controller("mainController", ["$scope", function ($scope) {
         
-        $scope.listItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        $scope.listItems = [];
         
         $scope.returnItems = true;
         $scope.loadMore = function(){
           if($scope.returnItems){
             var lastItem = $scope.listItems[$scope.listItems.length - 1];
-            for (var i = 1; i <= 10; i++) {
+            lastItem = lastItem || 0;
+            for (var i = 1; i <= 20; i++) {
               $scope.listItems.push(lastItem + i);
             }
           }
         };
+        $scope.loadMore();
         
         $scope.scrollBottom = function() {
           $(".scrollable-list").scrollTop($(".table-2").height() - $(".scrollable-list").height());
