@@ -19,12 +19,12 @@
     });
 
     describe("large list: ", function() {
-      beforeEach(function (done) {
+      beforeEach(function () {
+        browser.sleep(500);
+        
         element(by.id("scrollBottom")).click();
     
-        setTimeout(function() {
-          done();
-        }, 250);
+        browser.sleep(500);
       });
       
       it("Should load more rows on scroll", function() {
