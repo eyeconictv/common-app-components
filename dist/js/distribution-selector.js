@@ -86,9 +86,6 @@ angular.module("risevision.common.components.distribution-selector")
         },
         templateUrl: "distribution-selector/distribution-selector.html",
         link: function ($scope) {
-          if (typeof $scope.distributeToAll === "undefined") {
-            $scope.distributeToAll = true;
-          }
           var _getDistributionSelectionMessage = function () {
             var message = "0 Displays";
 
@@ -107,7 +104,15 @@ angular.module("risevision.common.components.distribution-selector")
               _getDistributionSelectionMessage();
           };
 
-          _refreshDistributionSelectionMessage();
+          $scope.$watchGroup(["distribution", "distributeToAll"], function () {
+            if (typeof $scope.distributeToAll === "undefined") {
+              $scope.distributeToAll = true;
+            }
+
+            if (!$scope.distributeToAll) {
+              _refreshDistributionSelectionMessage();
+            }
+          });
 
           $scope.manage = function () {
 
@@ -124,7 +129,6 @@ angular.module("risevision.common.components.distribution-selector")
 
             modalInstance.result.then(function (distribution) {
               $scope.distribution = distribution;
-              _refreshDistributionSelectionMessage();
             });
           };
         } //link()
