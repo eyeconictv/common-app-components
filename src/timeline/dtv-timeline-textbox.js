@@ -2,7 +2,8 @@
   "use strict";
   angular.module("risevision.common.components.timeline")
     .directive("timelineTextbox", ["$modal", "TimelineFactory",
-      function ($modal, TimelineFactory) {
+      "timelineDescription",
+      function ($modal, TimelineFactory, timelineDescription) {
         return {
           restrict: "E",
           scope: {
@@ -23,21 +24,28 @@
           },
           templateUrl: "timeline/timeline-textbox.html",
           link: function ($scope) {
-            $scope.timeline = TimelineFactory.getTimeline(
-              $scope.useLocaldate,
-              $scope.timeDefined,
-              $scope.startDate,
-              $scope.endDate,
-              $scope.startTime,
-              $scope.endTime,
-              $scope.recurrenceType,
-              $scope.recurrenceFrequency,
-              $scope.recurrenceAbsolute,
-              $scope.recurrenceDayOfWeek,
-              $scope.recurrenceDayOfMonth,
-              $scope.recurrenceWeekOfMonth,
-              $scope.recurrenceMonthOfYear,
-              $scope.recurrenceDaysOfWeek);
+            // Watch one of the scope variables to see when
+            // new data is coming in
+            $scope.$watch("startDate", function () {
+              $scope.timeline = TimelineFactory.getTimeline(
+                $scope.useLocaldate,
+                $scope.timeDefined,
+                $scope.startDate,
+                $scope.endDate,
+                $scope.startTime,
+                $scope.endTime,
+                $scope.recurrenceType,
+                $scope.recurrenceFrequency,
+                $scope.recurrenceAbsolute,
+                $scope.recurrenceDayOfWeek,
+                $scope.recurrenceDayOfMonth,
+                $scope.recurrenceWeekOfMonth,
+                $scope.recurrenceMonthOfYear,
+                $scope.recurrenceDaysOfWeek);
+
+              $scope.timeline.label = timelineDescription.updateLabel(
+                $scope.timeline);
+            });
 
             $scope.$watch("timeline.always", function (newValue) {
               $scope.timeDefined = !newValue;
@@ -72,6 +80,9 @@
                 $scope.recurrenceWeekOfMonth = timeline.recurrenceWeekOfMonth;
                 $scope.recurrenceMonthOfYear = timeline.recurrenceMonthOfYear;
                 $scope.recurrenceDaysOfWeek = timeline.recurrenceDaysOfWeek;
+
+                $scope.timeline.label = timelineDescription.updateLabel(
+                  $scope.timeline);
 
               }, function () {
                 // do what you need to do if user cancels

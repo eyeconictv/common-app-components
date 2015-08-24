@@ -1,21 +1,20 @@
 'use strict';
-describe('service: TimelineDescriptionService ', function() {
+describe('service: timelineDescription ', function() {
   beforeEach(module("risevision.common.components.timeline.services"));
-  var TimelineDescriptionService, timelineDescriptionService, timeline;
+  var timelineDescription, timeline;
 
   beforeEach(function(){
     timeline = {};
 
     inject(function($injector){
-      TimelineDescriptionService = $injector.get('TimelineDescriptionService');
-      timelineDescriptionService = new TimelineDescriptionService();
+      timelineDescription = $injector.get('timelineDescription');
     });
   });
   
   it('should exist',function(){
-    expect(timelineDescriptionService).to.be.truely;
+    expect(timelineDescription).to.be.truely;
 
-    expect(timelineDescriptionService.updateLabel).to.be.a('function');
+    expect(timelineDescription.updateLabel).to.be.a('function');
 
   });
 
@@ -26,7 +25,7 @@ describe('service: TimelineDescriptionService ', function() {
       allDay :  true
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('08-Oct-2015 ');
   });
@@ -39,7 +38,7 @@ describe('service: TimelineDescriptionService ', function() {
       allDay :  true
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('08-Oct-2015 to 20-Nov-2015 ');
   });
@@ -54,7 +53,7 @@ describe('service: TimelineDescriptionService ', function() {
       allDay :  false
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('08-Oct-2015 to 20-Nov-2015 10:55 AM to 06:24 PM ');
   });
@@ -67,7 +66,7 @@ describe('service: TimelineDescriptionService ', function() {
       allDay :  false
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('10:55 AM to 06:24 PM ');
   });
@@ -80,7 +79,7 @@ describe('service: TimelineDescriptionService ', function() {
       recurrenceFrequency : 1
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Daily Every 1 Day(s) ');
   });
@@ -93,7 +92,7 @@ describe('service: TimelineDescriptionService ', function() {
       recurrenceFrequency : 5
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Weekly Every 5 Week(s) ');
   });
@@ -107,7 +106,7 @@ describe('service: TimelineDescriptionService ', function() {
       recurrenceDaysOfWeek : ['Tue', 'Sun']
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Weekly Every 5 Week(s) Tuesday Sunday ');
   });
@@ -122,7 +121,7 @@ describe('service: TimelineDescriptionService ', function() {
       recurrenceFrequency : 8
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Monthly Day 4 Of Every 8 Month(s) ');
   });
@@ -139,7 +138,7 @@ describe('service: TimelineDescriptionService ', function() {
 
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Monthly Third Friday Of Every 3 Month(s) ');
   });
@@ -154,7 +153,7 @@ describe('service: TimelineDescriptionService ', function() {
       recurrenceDayOfMonth : 16
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Yearly Every July 16 ');
   });
@@ -171,7 +170,7 @@ describe('service: TimelineDescriptionService ', function() {
       recurrenceFrequency : 2
     };
 
-    var label = timelineDescriptionService.updateLabel(timeline);
+    var label = timelineDescription.updateLabel(timeline);
 
     expect(label).to.equal('Yearly Every Second Friday Of July ');
   });
