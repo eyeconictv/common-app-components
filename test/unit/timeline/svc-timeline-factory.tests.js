@@ -19,7 +19,6 @@ describe('service: TimelineFactory ', function() {
     it('should initialize timeline correctly',function(){
       var timeline = TimelineFactory.getTimeline();
 
-      expect(timeline.everyDay).to.be.true;
       expect(timeline.allDay).to.be.true;
 
       expect(timeline.startTime).to.not.be.ok;

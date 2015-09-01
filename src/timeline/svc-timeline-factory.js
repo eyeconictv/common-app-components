@@ -194,9 +194,6 @@ angular.module("risevision.common.components.timeline.services")
         };
 
         this.save = function () {
-          _timeline.startDate = _timeline.everyDay ? null : _timeline.startDate;
-          _timeline.endDate = _timeline.everyDay ? null : _timeline.endDate;
-
           _timeline.startTime = _timeline.allDay ? null : _timeline.startTime;
           _timeline.endTime = _timeline.allDay ? null : _timeline.endTime;
 
@@ -225,7 +222,6 @@ angular.module("risevision.common.components.timeline.services")
         var timeline = {
           useLocaldate: useLocaldate,
           always: !timeDefined,
-          everyDay: true && (!startDate || false),
           startDate: startDate || _getDateTime(0, 0, useLocaldate),
           endDate: endDate || null,
           allDay: true && (!startTime && !endTime || false),
