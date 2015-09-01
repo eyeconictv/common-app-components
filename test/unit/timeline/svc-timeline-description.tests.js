@@ -20,7 +20,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with startDate',function(){
     var timeline = {
-      everyDay : false,
       startDate: "10/08/2015",
       allDay :  true
     };
@@ -32,7 +31,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with startDate, endDate',function(){
     var timeline = {
-      everyDay : false,
       startDate: "10/08/2015",
       endDate: "11/20/2015",
       allDay :  true
@@ -45,7 +43,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with startDate, endDate, startTime and endTime',function(){
     var timeline = {
-      everyDay : false,
       startDate: "10/08/2015",
       endDate: "11/20/2015",
       startTime: "8/6/2015 10:55:00 AM",
@@ -60,7 +57,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Every Day, startTime and endTime',function(){
     var timeline = {
-      everyDay : true,
       startTime: "8/6/2015 10:55:00 AM",
       endTime: "8/6/2015 06:24:00 PM",
       allDay :  false
@@ -73,7 +69,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Daily recurrence',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Daily",
       recurrenceFrequency : 1
@@ -86,7 +81,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Weekly recurrence without days of the week',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Weekly",
       recurrenceFrequency : 5
@@ -99,7 +93,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Weekly recurrence with days of the week',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Weekly",
       recurrenceFrequency : 5,
@@ -113,7 +106,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Monthly recurrence absolute',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Monthly",
       recurrenceAbsolute : true,
@@ -128,7 +120,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Monthly recurrence relative',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Monthly",
       recurrenceAbsolute : false,
@@ -145,7 +136,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Yearly recurrence absolute',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Yearly",
       recurrenceAbsolute : true,
@@ -160,7 +150,6 @@ describe('service: timelineDescription ', function() {
 
   it('should have a label with Yearly recurrence relative',function(){
     var timeline = {
-      everyDay : true,
       allDay :  true,
       recurrenceType : "Yearly",
       recurrenceAbsolute : false,

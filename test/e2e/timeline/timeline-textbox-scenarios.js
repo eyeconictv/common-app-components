@@ -55,12 +55,16 @@
       });
       
       it("Should intitialize defaults", function() {
-
-        expect(element(by.model("timeline.everyDay")).isPresent())
+        expect(element(by.id("startDate")).isDisplayed())
           .to.eventually.be.true;
-        expect(element(by.model("timeline.everyDay")).isSelected())
+        expect(element(by.id("startDate")).getAttribute('value'))
+          .to.eventually.be.ok;
+            
+        expect(element(by.id("endDate")).isDisplayed())
           .to.eventually.be.true;
-
+        expect(element(by.id("endDate")).getAttribute('value'))
+          .to.eventually.not.be.ok;
+                  
         expect(element(by.model("timeline.allDay")).isPresent())
           .to.eventually.be.true;
         expect(element(by.model("timeline.allDay")).isSelected())
@@ -74,30 +78,10 @@
       });
       
       it("Should not show fields that should be hidden", function() {
-        expect(element(by.id("startDate")).isDisplayed())
-          .to.eventually.be.false;
-        expect(element(by.id("endDate")).isDisplayed())
-          .to.eventually.be.false;
-        
         expect(element(by.id("startTime")).isDisplayed())
           .to.eventually.be.false;
         expect(element(by.id("endTime")).isDisplayed())
           .to.eventually.be.false;
-      });
-      
-      it("Should show date fields if everyday is checked off", function() {
-        element(by.model("timeline.everyDay")).click();
-
-        expect(element(by.id("startDate")).isDisplayed())
-          .to.eventually.be.true;
-        expect(element(by.id("startDate")).getAttribute('value'))
-          .to.eventually.be.ok;
-            
-        expect(element(by.id("endDate")).isDisplayed())
-          .to.eventually.be.true;
-        expect(element(by.id("endDate")).getAttribute('value'))
-          .to.eventually.not.be.ok;
-
       });
 
       it("Should show time fields if allday is checked off", function() {

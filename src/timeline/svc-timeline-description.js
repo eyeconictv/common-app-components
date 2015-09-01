@@ -53,20 +53,18 @@ angular.module("risevision.common.components.timeline.services")
       service.updateLabel = function (timeline) {
         var label = "";
 
-        if (!timeline.everyDay) {
-          var shortFormat = "dd-MMM-yyyy";
+        var shortFormat = "dd-MMM-yyyy";
 
-          if (timeline.startDate) {
-            label = label + _filterDateFormat(timeline.startDate,
-              timeline.useLocaldate,
-              shortFormat) + " ";
-          }
+        if (timeline.startDate) {
+          label = label + _filterDateFormat(timeline.startDate,
+            timeline.useLocaldate,
+            shortFormat) + " ";
+        }
 
-          if (timeline.endDate) {
-            label = label + LABEL.TO + " " + _filterDateFormat(
-              timeline.endDate, timeline.useLocaldate,
-              shortFormat) + " ";
-          }
+        if (timeline.endDate) {
+          label = label + LABEL.TO + " " + _filterDateFormat(
+            timeline.endDate, timeline.useLocaldate,
+            shortFormat) + " ";
         }
 
         if (timeline.startTime) {
