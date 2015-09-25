@@ -60,6 +60,8 @@
     "bower_components/rv-loading/loading.js",
     "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
     "bower_components/ng-gapi-loader/src/js/svc-gapi.js",
+    "bower_components/ng-core-api-client/src/js/svc-core-util.js",
+    "bower_components/lodash/dist/lodash.js",
     "src/config.js",
     "src/**/app.js",
     "src/**/svc-*.js",

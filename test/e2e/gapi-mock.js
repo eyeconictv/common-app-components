@@ -67,6 +67,34 @@ gapi.client = {
           }
         };
       }
+    },
+    presentation: {
+      list: function () {
+        return {
+          result: {
+            nextPageToken: 1,
+            items: [
+              {
+                id: "id1",
+                name: "presentation1",
+                revisionStatusName: "Published"
+              },
+              {
+                id: "id2",
+                name: "presentation2",
+                revisionStatusName: "Revised"
+
+              },
+              {
+                id: "id3",
+                name: "presentation3",
+                revisionStatusName: "Published"
+
+              }
+            ]
+          }
+        };
+      }
     }
   },
   setApiKey: function() {
