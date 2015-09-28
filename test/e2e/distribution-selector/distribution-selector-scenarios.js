@@ -3,6 +3,7 @@
 
   var chai = require("chai");
   var chaiAsPromised = require("chai-as-promised");
+  var helper = require("../helper.js");
   var expect = chai.expect;
 
   chai.use(chaiAsPromised);
@@ -54,6 +55,7 @@
       beforeEach(function() {
         element(by.model("distributeToAll")).click();
         element(by.css("#distributionField")).click();
+        helper.wait(element(by.css(".modal-dialog .modal-content")), "Distribution modal");
       });
 
       it("Should show correct displays", function () {
@@ -72,6 +74,7 @@
         element.all(by.css(".display .display-name")).then(function (elements) {
           elements[1].click();
           element(by.id("applyButton")).click();
+          helper.wait(element(by.id("distributionFieldText")), "Distribution text");
 
           expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('1 Display');
           expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2"]');
@@ -83,8 +86,9 @@
         element.all(by.css(".display .display-name")).then(function (elements) {
           elements[1].click();
           elements[2].click();
+
           element(by.id("applyButton")).click();
-          browser.sleep(500);
+          helper.wait(element(by.id("distributionFieldText")), "Distribution text");
           expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays');
           expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2","id3"]');
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
@@ -96,15 +100,21 @@
         element.all(by.css(".display .display-name")).then(function (elements) {
           elements[1].click();
           elements[2].click();
+
           element(by.id("applyButton")).click();
 
-          browser.sleep(1000);
+          helper.wait(element(by.id("distributionFieldText")), "Distribution text");
+
           element(by.css("#distributionField")).click();
-          browser.sleep(500);
+          helper.wait(element(by.css(".modal-dialog .modal-content")), "Distribution modal");
+
           element.all(by.css(".display .display-name")).then(function (elements) {
             elements[1].click();
             elements[2].click();
+
             element(by.id("applyButton")).click();
+            helper.wait(element(by.id("distributionFieldText")), "Distribution text");
+
             expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('0 Displays');
             expect(element(by.id("distributionValue")).getText()).to.eventually.equal('[]');
             expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
@@ -117,7 +127,9 @@
           elements[1].click();
           elements[2].click();
           element(by.id("applyButton")).click();
-          browser.sleep(500);
+
+          helper.wait(element(by.id("distributionFieldText")), "Distribution text");
+
           expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays');
           expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2","id3"]');
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');

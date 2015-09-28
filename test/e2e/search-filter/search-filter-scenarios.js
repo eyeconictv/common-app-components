@@ -22,28 +22,20 @@
         .to.eventually.equal("test");
     });
     
-    it("Clear button should clear query", function(done) {      
-      element(by.css(".input-group .input-group-addon .fa-times")).click();
+    it("Clear button should clear query", function() {
+      element(by.css(".fa-times")).click();
       
       expect(element(by.css(".input-group input")).getAttribute("value"))
         .to.eventually.equal("");
-        
-      setTimeout(function() {
-        expect(element(by.id("searchCount")).getText())
-          .to.eventually.equal("1");
-        done();
-      }, 10);
-    });    
+      expect(element(by.id("searchCount")).getText())
+        .to.eventually.equal("1");
+    });
     
-    it("Pressing enter should trigger search", function(done) {      
+    it("Pressing enter should trigger search", function() {
       element(by.css(".input-group input")).sendKeys("a");
       element(by.css(".input-group input")).sendKeys(protractor.Key.ENTER);
-      
-      setTimeout(function() {
-        expect(element(by.id("searchCount")).getText())
-          .to.eventually.equal("1");
-        done();
-      }, 10);
+      expect(element(by.id("searchCount")).getText())
+        .to.eventually.equal("1");
     });
         
   });
