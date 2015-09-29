@@ -1,6 +1,6 @@
 "use strict";
 angular.module("risevision.common.components.presentation-selector")
-  .controller("PresentationListController", ["$scope", "$rootScope",
+  .controller("PresentationListModalController", ["$scope", "$rootScope",
     "presentation", "$loading", "BaseList", "$filter",
     function ($scope, $rootScope, presentation, $loading, BaseList, $filter) {
       var DB_MAX_COUNT = 40; //number of records to load at a time
