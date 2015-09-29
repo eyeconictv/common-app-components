@@ -307,7 +307,7 @@ angular.module("risevision.common.components.presentation-selector")
 
 "use strict";
 angular.module("risevision.common.components.presentation-selector")
-  .controller("PresentationListController", ["$scope", "$rootScope",
+  .controller("PresentationListModalController", ["$scope", "$rootScope",
     "presentation", "$loading", "BaseList", "$filter",
     function ($scope, $rootScope, presentation, $loading, BaseList, $filter) {
       var DB_MAX_COUNT = 40; //number of records to load at a time
@@ -430,7 +430,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('presentation-selector/presentation-list-modal.html',
-    '<div ng-controller="PresentationListController"><search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter><div class="content-box half-top"><div class="scrollable-list" scrolling-list="load()" rv-spinner="" rv-spinner-key="presentation-list-loader" rv-spinner-start-active="1"><table id="presentationListTable" class="table-2 table-hover"><thead><tr><th id="tableHeaderName" ng-click="sortBy(\'name\')" class="clickable">{{\'schedules-app.presentation-modal.presentation-list.heading.name\' | translate}}<i ng-if="search.sortBy == \'name\'" class="fa" ng-class="{false: \'fa-long-arrow-up\', true: \'fa-long-arrow-down\'}[search.reverse]"></i></th><th id="tableHeaderStatus" class="text-right">{{\'schedules-app.presentation-modal.presentation-list.heading.status\' | translate}}</th></tr></thead><tbody><tr class="clickable-row" data-ng-click="toggleObject.item = $index; select(presentation.id, presentation.name);" data-ng-class="{\'active\' : toggleObject.item == $index}" ng-repeat="presentation in presentations.list"><td id="presentationName">{{presentation.name}}</td><td class="text-right"><span ng-class="{\'text-danger\': presentation.revisionStatus==1}">{{presentation.revisionStatusName | presentationStatus}}</span></td></tr></tbody></table></div></div></div>');
+    '<div ng-controller="PresentationListModalController"><search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter><div class="content-box half-top"><div class="scrollable-list" scrolling-list="load()" rv-spinner="" rv-spinner-key="presentation-list-loader" rv-spinner-start-active="1"><table id="presentationListTable" class="table-2 table-hover"><thead><tr><th id="tableHeaderName" ng-click="sortBy(\'name\')" class="clickable">{{\'schedules-app.presentation-modal.presentation-list.heading.name\' | translate}}<i ng-if="search.sortBy == \'name\'" class="fa" ng-class="{false: \'fa-long-arrow-up\', true: \'fa-long-arrow-down\'}[search.reverse]"></i></th><th id="tableHeaderStatus" class="text-right">{{\'schedules-app.presentation-modal.presentation-list.heading.status\' | translate}}</th></tr></thead><tbody><tr class="clickable-row" data-ng-click="toggleObject.item = $index; select(presentation.id, presentation.name);" data-ng-class="{\'active\' : toggleObject.item == $index}" ng-repeat="presentation in presentations.list"><td id="presentationName">{{presentation.name}}</td><td class="text-right"><span ng-class="{\'text-danger\': presentation.revisionStatus==1}">{{presentation.revisionStatusName | presentationStatus}}</span></td></tr></tbody></table></div></div></div>');
 }]);
 })();
 
