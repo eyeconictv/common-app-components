@@ -1,12 +1,8 @@
 (function() {
   "use strict";
+  var expect = require('rv-common-e2e').expect;
+  var helper = require('rv-common-e2e').helper;
 
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-  var helper = require("../helper.js");
-  var expect = chai.expect;
-
-  chai.use(chaiAsPromised);
   browser.driver.manage().window().setSize(1024, 768);
 
   describe("distribution selector", function() {

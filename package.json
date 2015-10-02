@@ -42,7 +42,8 @@
     "jshint-stylish": "^0.2.0",
     "merge-stream": "^0.1.7",
     "run-sequence": "^0.3.2",
-    "widget-tester": "git://github.com/Rise-Vision/widget-tester.git"
+    "widget-tester": "git://github.com/Rise-Vision/widget-tester.git",
+    "rv-common-e2e": "git://github.com/Rise-Vision/rv-common-e2e.git"
   },
   "homepage": "https://github.com/Rise-Vision/common-app-components"
 }

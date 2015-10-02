@@ -1,11 +1,6 @@
 (function() {
   "use strict";
-
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-  var expect = chai.expect;
-
-  chai.use(chaiAsPromised);
+  var expect = require('rv-common-e2e').expect;
   browser.driver.manage().window().setSize(1024, 768);
 
   describe("search filter", function() {

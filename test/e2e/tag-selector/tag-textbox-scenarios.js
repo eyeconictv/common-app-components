@@ -1,11 +1,7 @@
 (function() {
   "use strict";
 
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-  var expect = chai.expect;
-
-  chai.use(chaiAsPromised);
+  var expect = require('rv-common-e2e').expect;
   browser.driver.manage().window().setSize(1024, 768);
 
   describe("modal-lookup-textbox", function() {
@@ -73,20 +69,6 @@
             .to.eventually.be.false;
         });      
       });
-      
-      it("Clicking remove tag should add it to the bottom list", function () {
-        element.all(by.css(".select-tags .label-tag")).then(function (elements) {
-          elements[1].click();
-
-          element(by.css(".selected-tags .label-tag")).click();
-          
-          expect(element.all(by.css(".select-tags .label-tag")).count())
-            .to.eventually.equal(2);
-            
-          expect(element(by.css(".selected-tags .label-tag")).isPresent())
-            .to.eventually.be.false;
-        }); 
-      });  
     });
     
     describe("Save tags", function() {
