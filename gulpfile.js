@@ -79,8 +79,8 @@
   gulp.task("server-close", factory.testServerClose());
   gulp.task("test:webdrive_update", factory.webdriveUpdate());
   gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
-    src: ["test/e2e/**/*-scenarios.js"],
-    browser: "chrome"
+    browser: "chrome",
+    testFiles: process.env.TEST_FILES
   }));
   gulp.task("test:e2e", function (cb) {
     runSequence("server", "test:e2e:core", "server-close", cb);

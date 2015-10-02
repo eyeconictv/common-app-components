@@ -1,12 +1,7 @@
 (function() {
   "use strict";
-
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-  var helper = require("../helper.js");
-  var expect = chai.expect;
-
-  chai.use(chaiAsPromised);
+  var expect = require('rv-common-e2e').expect;
+  var helper = require('rv-common-e2e').helper;
   browser.driver.manage().window().setSize(1024, 768);
 
   describe("presentation selector", function() {
