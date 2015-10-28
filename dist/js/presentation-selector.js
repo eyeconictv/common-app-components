@@ -442,6 +442,6 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('presentation-selector/presentation-modal.html',
-    '<div id="addPresentationModal"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">schedules-app.presentation-modal.title</h3></div><div class="modal-body" ng-include="" src="\'presentation-selector/presentation-list-modal.html\'"></div></div>');
+    '<div id="addPresentationModal"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">schedules-app.presentation-modal.title</h3></div><div class="modal-body" stop-event="touchend" ng-include="" src="\'presentation-selector/presentation-list-modal.html\'"></div></div>');
 }]);
 })();

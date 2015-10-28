@@ -269,7 +269,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-modal.html',
-    '<div id="distributionModal"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title">Edit Distribution</h3></div><div class="modal-body" ng-include="" src="\'distribution-selector/distribution-list.html\'"></div><div class="modal-footer"><button id="applyButton" class="btn-primary btn" ng-click="apply()">Apply <i class="fa fa-check icon-right"></i></button> <button id="distributionModalCancelButton" class="btn btn-default" ng-click="dismiss()">Cancel <i class="fa fa-times icon-right"></i></button></div></div>');
+    '<div id="distributionModal"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title">Edit Distribution</h3></div><div class="modal-body" stop-event="touchend" ng-include="" src="\'distribution-selector/distribution-list.html\'"></div><div class="modal-footer"><button id="applyButton" class="btn-primary btn" ng-click="apply()">Apply <i class="fa fa-check icon-right"></i></button> <button id="distributionModalCancelButton" class="btn btn-default" ng-click="dismiss()">Cancel <i class="fa fa-times icon-right"></i></button></div></div>');
 }]);
 })();
 
