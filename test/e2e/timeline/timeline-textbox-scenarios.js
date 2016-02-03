@@ -141,6 +141,11 @@
         });
       });
 
+      it('Should close when clicking outside modal',function(){
+        browser.actions().mouseMove(element(by.css("body")),{x: 5, y: 5}).click().perform();
+        expect(element(by.css(".modal-body .timeline")).isPresent()).to.eventually.be.false;
+      });
+
     });
 
   

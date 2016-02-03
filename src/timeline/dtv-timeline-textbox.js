@@ -60,8 +60,7 @@
                     return angular.copy($scope.timeline);
                   }
                 },
-                size: "md",
-                backdrop: "static"
+                size: "md"
               });
 
               modalInstance.result.then(function (timeline) {
