@@ -25,6 +25,9 @@ describe('service: presentation:', function() {
             email : 'foo@bar'
           };
         },
+        isRiseAdmin: function() {
+          return isRiseAdmin;
+        },
         _restoreState:function(){}
       }
     });
@@ -168,11 +171,12 @@ describe('service: presentation:', function() {
     });
 
   }));
-  var presentation, returnList, searchString, sortString;
+  var presentation, returnList, searchString, sortString, isRiseAdmin;
   beforeEach(function(){
     returnList = true;
     searchString = '';
     sortString='';
+    isRiseAdmin = false;
     
     inject(function($injector){
       presentation = $injector.get('presentation');
@@ -296,6 +300,56 @@ describe('service: presentation:', function() {
       })
       .then(null,done);
     });
+
+    it('should send isStoreProduct if user is Rise Admin',function(done){
+      presentationObject.isTemplate = true;      
+      presentationObject.isStoreProduct = true;      
+      isRiseAdmin = true;
+
+      presentation.add(presentationObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.have.property("isStoreProduct");
+        expect(result.item.isStoreProduct).to.be.true;
+        
+        done();
+      })
+      .then(null,done);
+    });
+
+    it('should set isStoreProduct to false if presentation is not a template',function(done){
+      presentationObject.isTemplate = false;      
+      presentationObject.isStoreProduct = true;      
+      isRiseAdmin = true;
+
+      presentation.add(presentationObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.have.property("isStoreProduct");
+        expect(result.item.isStoreProduct).to.be.false;
+        
+        done();
+      })
+      .then(null,done);
+    });
+
+    it('should not send isStoreProduct if user is not Rise Admin',function(done){
+      presentationObject.isTemplate = true;
+      presentationObject.isStoreProduct = true;      
+      isRiseAdmin = false;
+      
+      presentation.add(presentationObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.not.have.property("isStoreProduct");
+        
+        done();
+      })
+      .then(null,done);
+    });
     
     it("should handle failure to add presentation",function(done){
       presentation.add({})
@@ -327,6 +381,56 @@ describe('service: presentation:', function() {
       })
       .then(null,done);
     });
+
+    it('should send isStoreProduct if user is Rise Admin',function(done){
+      presentationObject.isTemplate = true;
+      presentationObject.isStoreProduct = true;      
+      isRiseAdmin = true;
+
+      presentation.update(presentationObject.id, presentationObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.have.property("isStoreProduct");
+        expect(result.item.isStoreProduct).to.be.true;
+        
+        done();
+      })
+      .then(null,done);
+    });
+
+    it('should set isStoreProduct to false if presentation is not a template',function(done){
+      presentationObject.isTemplate = false;      
+      presentationObject.isStoreProduct = true;      
+      isRiseAdmin = true;
+
+      presentation.update(presentationObject.id, presentationObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.have.property("isStoreProduct");
+        expect(result.item.isStoreProduct).to.be.false;
+        
+        done();
+      })
+      .then(null,done);
+    });
+
+    it('should not send isStoreProduct if user is not Rise Admin',function(done){
+      presentationObject.isStoreProduct = true;      
+      isRiseAdmin = false;
+      
+      presentation.update(presentationObject.id, presentationObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.not.have.property("isStoreProduct");
+        
+        done();
+      })
+      .then(null,done);
+    });
+
     
     it('should remove extra properties',function(done){
       presentation.update(presentationObject.id, presentationObject)

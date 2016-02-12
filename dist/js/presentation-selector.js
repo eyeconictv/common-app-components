@@ -163,6 +163,10 @@ angular.module("risevision.common.components.presentation-selector.services")
 
           var fields = pick.apply(this, [presentation].concat(
             PRESENTAION_WRITABLE_FIELDS));
+          if (userState.isRiseAdmin()) {
+            fields.isStoreProduct = presentation.isTemplate && presentation
+              .isStoreProduct;
+          }
           var obj = {
             "companyId": userState.getSelectedCompanyId(),
             "data": fields
@@ -185,6 +189,10 @@ angular.module("risevision.common.components.presentation-selector.services")
 
           var fields = pick.apply(this, [presentation].concat(
             PRESENTAION_WRITABLE_FIELDS));
+          if (userState.isRiseAdmin()) {
+            fields.isStoreProduct = presentation.isTemplate && presentation
+              .isStoreProduct;
+          }
           var obj = {
             "id": presentationId,
             "data": fields
