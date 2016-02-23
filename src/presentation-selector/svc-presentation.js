@@ -61,7 +61,8 @@ angular.module("risevision.common.components.presentation-selector.services")
           var deferred = $q.defer();
 
           var obj = {
-            "id": presentationId
+            "id": presentationId,
+            "companyId": userState.getSelectedCompanyId()
           };
 
           $log.debug("get presentation called with", presentationId);
