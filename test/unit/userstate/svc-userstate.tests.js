@@ -65,6 +65,7 @@ describe("Services: auth & user state", function() {
       "isSubcompanySelected", "getUserPicture", "inRVAFrame",
       "isRiseAdmin", "isRiseStoreAdmin", "isUserAdmin", "isPurchaser",
       "isSeller", "isRiseVisionUser", "isLoggedIn", "authenticate",
+      "authenticatePopup",
       "signOut", "checkUsername", "updateUserProfile", "refreshProfile", 
       "getAccessToken"].forEach(
       function (method) {
@@ -390,6 +391,24 @@ describe("Services: auth & user state", function() {
         })
           .then(null,done);
       });
+    });
+  });
+  
+  it("authenticatePopup: should force authentication", function(done) {
+    inject(function(userState,$rootScope){
+      gapi.setPendingSignInUser("michael.sanchez@awesome.io");
+
+      var broadcastSpy = sinon.spy($rootScope, "$broadcast");
+      userState.authenticatePopup().then(function() {
+        expect(userState.isLoggedIn()).to.be.true;
+        expect(userState.isRiseVisionUser()).to.be.true;
+        broadcastSpy.should.have.been.calledWith("risevision.user.authorized");
+        broadcastSpy.should.have.been.calledWith("risevision.user.userSignedIn");
+        expect(userState.getUsername()).to.equal("michael.sanchez@awesome.io");
+
+        done();
+      })
+        .then(null,done);
     });
   });
   
