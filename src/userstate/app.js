@@ -20,6 +20,7 @@
   ]);
 
   angular.module("risevision.common.components.userstate", [
+    "ui.router",
     "risevision.common.components.util",
     "risevision.common.components.rvtokenstore",
     "risevision.common.components.logging",
