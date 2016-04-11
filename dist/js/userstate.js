@@ -799,7 +799,8 @@ angular.module("risevision.common.components.logging")
               _logPageLoad("unauthenticated user");
             }
           };
-          _proceed();
+          // pre-load gapi to prevent popup blocker issues
+          gapiLoader().finally(_proceed);
 
           if (forceAuth) {
             $loading.startGlobal("risevision.user.authenticate");

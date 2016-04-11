@@ -77,13 +77,35 @@ describe("Services: auth & user state", function() {
   });
   
   describe("user not logged in: ",function(){
-    var userState, rootScope, broadcastSpy,externalLoggingSpy;
+    var userState, rootScope, broadcastSpy,externalLoggingSpy, gapiLoaderCalled;
+
+    beforeEach(module(function ($provide) {
+      gapiLoaderCalled = 0;
+      $provide.service("gapiLoader", function () {
+        return function() {
+          gapiLoaderCalled++;
+          var deferred = Q.defer();
+          
+          deferred.resolve({
+            auth: {
+              authorize: function(opts, callback) {
+                callback({});
+              },
+              setToken: function() {}
+            }
+          });
+          
+          return deferred.promise;
+        };
+      });
+    }));
 
     beforeEach(function() {      
       inject(function($injector){
-        userState = $injector.get("userState");
         rootScope = $injector.get("$rootScope");
         var $window = $injector.get("$window");
+        userState = $injector.get("userState");
+
         $window.performance = {timing: {navigationStart:0}};
         var externalLogging = $injector.get("externalLogging");
         externalLoggingSpy = sinon.spy(externalLogging, "logEvent");
@@ -105,6 +127,16 @@ describe("Services: auth & user state", function() {
       userState.authenticate().then(done, function() {
         externalLoggingSpy.should.have.been.calledWith("page load time","unauthenticated user");
         done();    
+      })
+      .then(null,done);
+    });
+    
+    
+    it("should pre-initialize gapiLoader", function(done) {
+      userState.authenticate().then(done, function() {
+        expect(gapiLoaderCalled).to.be.equal(1);
+        
+        done();
       })
       .then(null,done);
     });
