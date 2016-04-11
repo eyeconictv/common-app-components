@@ -19,6 +19,9 @@ describe("Services: auth & user state", function() {
       },
       protocol: function () {
         return "protocol";
+      },
+      url: function() {
+        return "";
       }
     });
     $provide.service("getBaseDomain", [function() {
@@ -402,7 +405,8 @@ describe("Services: auth & user state", function() {
         },
         protocol: function () {
           return "protocol";
-        }
+        },
+        url: function() {}
       });
     }));
     

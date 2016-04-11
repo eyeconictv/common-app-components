@@ -18,7 +18,8 @@ describe("Services: company state", function() {
       },
       path: function() {
         return "";
-      }
+      },
+      url: function() {}
     });
     $provide.factory("getCompany", [function () {
       return function(companyId) {
