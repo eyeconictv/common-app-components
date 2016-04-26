@@ -5,9 +5,11 @@ angular.module("risevision.common.components.logging")
     function (externalLogging, userState) {
       var factory = {};
 
-      factory.logEvent = function (eventName, eventDetails, eventValue) {
+      factory.logEvent = function (eventName, eventDetails, eventValue,
+        username, companyId) {
         return externalLogging.logEvent(eventName, eventDetails, eventValue,
-          userState.getUsername(), userState.getSelectedCompanyId());
+          username || userState.getUsername(), companyId || userState.getSelectedCompanyId()
+        );
       };
 
       return factory;
