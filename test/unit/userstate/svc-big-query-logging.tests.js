@@ -45,9 +45,16 @@ describe("Services: bigQueryLogging", function() {
   });
 
   describe("logEvent:", function(){
-    it("should POST with userId and companyId",function(done){
+    it("should POST with userId and companyId if not provided",function(done){
       bigQueryLogging.logEvent("eventName","details",1).then(function(){
         externalLogEventSpy.should.have.been.calledWith("eventName","details",1,"user1","company1");
+        done();
+      }).then(null,done);
+    });
+
+    it("should POST with custom userId and companyId",function(done){
+      bigQueryLogging.logEvent("eventName","details",1, "myUser", "myCompany").then(function(){
+        externalLogEventSpy.should.have.been.calledWith("eventName","details",1,"myUser","myCompany");
         done();
       }).then(null,done);
     });
