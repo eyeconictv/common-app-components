@@ -594,30 +594,47 @@ angular.module("risevision.common.components.logging")
           }
         };
 
-        var _addEventListenerVisibilityAPI = function () {
-          var visibilityState, visibilityChange;
+        var _visibilityListener = function () {
+          var visibilityState;
+          var document = $document[0];
+          if (typeof document.hidden !== "undefined") {
+            visibilityState = "visibilityState";
+          } else if (typeof document.mozHidden !== "undefined") {
+            visibilityState = "mozVisibilityState";
+          } else if (typeof document.msHidden !== "undefined") {
+            visibilityState = "msVisibilityState";
+          } else if (typeof document.webkitHidden !== "undefined") {
+            visibilityState = "webkitVisibilityState";
+          }
+          $log.debug("visibility: " + document[visibilityState]);
+          if ("visible" === document[visibilityState]) {
+            _detectUserOrAuthChange();
+          }
+        };
+
+        var _getVisibilityChangeName = function () {
+          var visibilityChange;
           var document = $document[0];
           if (typeof document.hidden !== "undefined") {
             visibilityChange = "visibilitychange";
-            visibilityState = "visibilityState";
           } else if (typeof document.mozHidden !== "undefined") {
             visibilityChange = "mozvisibilitychange";
-            visibilityState = "mozVisibilityState";
           } else if (typeof document.msHidden !== "undefined") {
             visibilityChange = "msvisibilitychange";
-            visibilityState = "msVisibilityState";
           } else if (typeof document.webkitHidden !== "undefined") {
             visibilityChange = "webkitvisibilitychange";
-            visibilityState = "webkitVisibilityState";
           }
+          return visibilityChange;
+        };
 
-          document.addEventListener(visibilityChange, function () {
-            $log.debug("visibility: " + document[visibilityState]);
-            if ("visible" === document[visibilityState]) {
-              _detectUserOrAuthChange();
-            }
-          });
+        var _addEventListenerVisibilityAPI = function () {
+          document.addEventListener(_getVisibilityChangeName(),
+            _visibilityListener);
+        };
 
+        var _removeEventListenerVisibilityAPI = function () {
+          document.removeEventListener(_getVisibilityChangeName(),
+            _visibilityListener);
         };
 
         _addEventListenerVisibilityAPI();
@@ -1029,6 +1046,8 @@ angular.module("risevision.common.components.logging")
           },
           signOut: signOut,
           refreshProfile: refreshProfile,
+          addEventListenerVisibilityAPI: _addEventListenerVisibilityAPI,
+          removeEventListenerVisibilityAPI: _removeEventListenerVisibilityAPI,
           // company getters
           getUserCompanyId: companyState.getUserCompanyId,
           getUserCompanyName: companyState.getUserCompanyName,
