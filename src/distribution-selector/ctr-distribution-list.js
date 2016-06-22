@@ -1,10 +1,13 @@
 "use strict";
 angular.module("risevision.common.components.distribution-selector")
+  .value("ADD_DISPLAY_STATE_NAME", "apps.displays.add")
   .controller("distributionListController", ["$scope", "$rootScope",
-    "displayService", "$loading", "BaseList",
-    function ($scope, $rootScope, displayService, $loading, BaseList) {
+    "displayService", "$loading", "BaseList", "ADD_DISPLAY_STATE_NAME",
+    function ($scope, $rootScope, displayService, $loading, BaseList,
+      ADD_DISPLAY_STATE_NAME) {
       var DB_MAX_COUNT = 40; //number of records to load at a time
 
+      $scope.ADD_DISPLAY_STATE_NAME = ADD_DISPLAY_STATE_NAME;
       $scope.displays = new BaseList(DB_MAX_COUNT);
       $scope.search = {
         sortBy: "name",

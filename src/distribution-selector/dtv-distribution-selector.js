@@ -7,18 +7,19 @@ angular.module("risevision.common.components.distribution-selector")
         restrict: "E",
         scope: {
           distribution: "=",
-          distributeToAll: "="
+          distributeToAll: "=",
+          hideCta: "="
         },
         templateUrl: "distribution-selector/distribution-selector.html",
         link: function ($scope) {
           var _getDistributionSelectionMessage = function () {
-            var message = "0 Displays";
+            var message = "No Displays Selected";
 
-            if ($scope.distribution) {
+            if ($scope.distribution && $scope.distribution.length > 0) {
               if ($scope.distribution.length === 1) {
-                message = "1 Display";
+                message = "1 Display Selected";
               } else {
-                message = $scope.distribution.length + " Displays";
+                message = $scope.distribution.length + " Displays Selected";
               }
             }
             return message;

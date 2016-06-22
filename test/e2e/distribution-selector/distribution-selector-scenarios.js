@@ -13,7 +13,7 @@
     it("Should load", function () {
       expect(element(by.model("distributeToAll")).isDisplayed()).to.eventually.be.true;
       expect(element(by.model("distributeToAll")).isSelected()).to.eventually.be.true;
-      expect(element(by.id("distributeToAllText")).getText()).to.eventually.equal("All Displays");
+      expect(element(by.id("distributeToAllText")).getText()).to.eventually.equal("Select All Displays");
     });
 
     it("Should show the distribution field", function () {
@@ -72,7 +72,7 @@
           element(by.id("applyButton")).click();
           helper.wait(element(by.id("distributionFieldText")), "Distribution text");
 
-          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('1 Display');
+          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('1 Display Selected');
           expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2"]');
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
         });
@@ -85,7 +85,7 @@
 
           element(by.id("applyButton")).click();
           helper.wait(element(by.id("distributionFieldText")), "Distribution text");
-          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays');
+          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays Selected');
           expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2","id3"]');
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
 
@@ -111,7 +111,7 @@
             element(by.id("applyButton")).click();
             helper.wait(element(by.id("distributionFieldText")), "Distribution text");
 
-            expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('0 Displays');
+            expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('No Displays Selected');
             expect(element(by.id("distributionValue")).getText()).to.eventually.equal('[]');
             expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
           });
@@ -126,7 +126,7 @@
 
           helper.wait(element(by.id("distributionFieldText")), "Distribution text");
 
-          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays');
+          expect(element(by.id("distributionFieldText")).getText()).to.eventually.equal('2 Displays Selected');
           expect(element(by.id("distributionValue")).getText()).to.eventually.equal('["id2","id3"]');
           expect(element(by.id("distributeToAllValue")).getText()).to.eventually.equal('false');
 
