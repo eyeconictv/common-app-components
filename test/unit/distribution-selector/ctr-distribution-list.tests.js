@@ -28,7 +28,7 @@ describe('controller: Distribution List', function() {
       }
     });
   }));
-  var $scope, $broadcastSpy, returnPresentations, apiCount, result, $loading,$loadingStartSpy, $loadingStopSpy;
+  var $scope, $broadcastSpy, returnPresentations, apiCount, result, $loading,$loadingStartSpy, $loadingStopSpy, rootScope;
   beforeEach(function(){
 
     result = {
@@ -43,6 +43,7 @@ describe('controller: Distribution List', function() {
 
 
     inject(function($injector,$rootScope, $controller){
+      rootScope = $rootScope;
       $scope = $rootScope.$new();
 
       $scope.parameters = {};
@@ -277,6 +278,22 @@ describe('controller: Distribution List', function() {
         done();
       },10);
     });
+
+    it('should broadcast event on addDisplay()',function(){
+      $scope.addDisplay();
+
+      $broadcastSpy.should.have.been.calledWith("distributionSelector.addDisplay");
+    });
+
+    it('should reload list when a new display is created',function(){
+      var spy = sinon.spy($scope,'load');
+
+      rootScope.$broadcast('displayCreated');
+
+      $scope.$apply();
+      spy.should.have.been.called;
+    });
+
   });
 
 });

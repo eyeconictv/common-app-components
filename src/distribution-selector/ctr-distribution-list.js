@@ -1,13 +1,10 @@
 "use strict";
 angular.module("risevision.common.components.distribution-selector")
-  .value("ADD_DISPLAY_STATE_NAME", "apps.displays.add")
   .controller("distributionListController", ["$scope", "$rootScope",
-    "displayService", "$loading", "BaseList", "ADD_DISPLAY_STATE_NAME",
-    function ($scope, $rootScope, displayService, $loading, BaseList,
-      ADD_DISPLAY_STATE_NAME) {
+    "displayService", "$loading", "BaseList",
+    function ($scope, $rootScope, displayService, $loading, BaseList) {
       var DB_MAX_COUNT = 40; //number of records to load at a time
 
-      $scope.ADD_DISPLAY_STATE_NAME = ADD_DISPLAY_STATE_NAME;
       $scope.displays = new BaseList(DB_MAX_COUNT);
       $scope.search = {
         sortBy: "name",
@@ -19,6 +16,12 @@ angular.module("risevision.common.components.distribution-selector")
         placeholder: "Search Displays",
         id: "displaySearchInput"
       };
+
+      $scope.$on("displayCreated", function () {
+        $scope.displays.clear();
+
+        $scope.load();
+      });
 
       $scope.$watch("loadingDisplays", function (loading) {
         if (loading) {
@@ -77,8 +80,9 @@ angular.module("risevision.common.components.distribution-selector")
         }
       };
 
-
-
+      $scope.addDisplay = function () {
+        $rootScope.$broadcast("distributionSelector.addDisplay");
+      };
 
       $scope.isSelected = function (displayId) {
         var index = $scope.parameters.distribution.indexOf(displayId);

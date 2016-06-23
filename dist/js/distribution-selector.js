@@ -139,14 +139,11 @@ angular.module("risevision.common.components.distribution-selector")
 
 "use strict";
 angular.module("risevision.common.components.distribution-selector")
-  .value("ADD_DISPLAY_STATE_NAME", "apps.displays.add")
   .controller("distributionListController", ["$scope", "$rootScope",
-    "displayService", "$loading", "BaseList", "ADD_DISPLAY_STATE_NAME",
-    function ($scope, $rootScope, displayService, $loading, BaseList,
-      ADD_DISPLAY_STATE_NAME) {
+    "displayService", "$loading", "BaseList",
+    function ($scope, $rootScope, displayService, $loading, BaseList) {
       var DB_MAX_COUNT = 40; //number of records to load at a time
 
-      $scope.ADD_DISPLAY_STATE_NAME = ADD_DISPLAY_STATE_NAME;
       $scope.displays = new BaseList(DB_MAX_COUNT);
       $scope.search = {
         sortBy: "name",
@@ -158,6 +155,12 @@ angular.module("risevision.common.components.distribution-selector")
         placeholder: "Search Displays",
         id: "displaySearchInput"
       };
+
+      $scope.$on("displayCreated", function () {
+        $scope.displays.clear();
+
+        $scope.load();
+      });
 
       $scope.$watch("loadingDisplays", function (loading) {
         if (loading) {
@@ -216,8 +219,9 @@ angular.module("risevision.common.components.distribution-selector")
         }
       };
 
-
-
+      $scope.addDisplay = function () {
+        $rootScope.$broadcast("distributionSelector.addDisplay");
+      };
 
       $scope.isSelected = function (displayId) {
         var index = $scope.parameters.distribution.indexOf(displayId);
@@ -261,7 +265,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-list.html',
-    '<div ng-controller="distributionListController"><search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter><div class="content-box half-top"><div class="scrollable-list" scrolling-list="load()" rv-spinner="" rv-spinner-key="display-list-loader" rv-spinner-start-active="1"><div class="text-center add-top-double" ng-if="!loadingDisplays && displays.list.length === 0"><h4 class="text-muted add-bottom add-top">No Displays Available</h4><a ng-if="ADD_DISPLAY_STATE_NAME" ui-sref="{{ADD_DISPLAY_STATE_NAME}}" class="btn btn-primary btn-lg">Add Display <i class="fa fa-plus icon-right"></i></a></div><table id="displayListTable" class="table-2 table-hover table-selector multiple-selector animated fadeIn" ng-if="displays.list.length > 0"><thead><tr><th id="tableHeaderName" ng-click="sortBy(\'name\')" class="clickable">Name<i ng-if="search.sortBy == \'name\'" class="fa" ng-class="{false: \'fa-long-arrow-up\', true: \'fa-long-arrow-down\'}[search.reverse]"></i></th><th id="tableHeaderAddress" class="hidden-xs">Address</th></tr></thead><tbody><tr class="clickable-row display" ng-click="toggleDisplay(display.id);" ng-class="{\'active\' : isSelected(display.id) }" ng-repeat="display in displays.list"><td id="displayName-{{display.id}}" class="display-name"><span>{{display.name}}</span></td><td id="displayAddress-{{display.id}}" class="display-address hidden-xs"><span class="text-muted">{{display.address}}</span></td></tr></tbody></table></div></div></div>');
+    '<div ng-controller="distributionListController"><search-filter filter-config="filterConfig" search="search" do-search="doSearch"></search-filter><div class="content-box half-top"><div class="scrollable-list" scrolling-list="load()" rv-spinner="" rv-spinner-key="display-list-loader" rv-spinner-start-active="1"><div class="text-center add-top-double" ng-if="!loadingDisplays && displays.list.length === 0"><h4 class="text-muted add-bottom add-top">No Displays Available</h4><button ng-click="addDisplay()" class="btn btn-primary btn-lg">Add Display <i class="fa fa-plus icon-right"></i></button></div><table id="displayListTable" class="table-2 table-hover table-selector multiple-selector animated fadeIn" ng-if="displays.list.length > 0"><thead><tr><th id="tableHeaderName" ng-click="sortBy(\'name\')" class="clickable">Name<i ng-if="search.sortBy == \'name\'" class="fa" ng-class="{false: \'fa-long-arrow-up\', true: \'fa-long-arrow-down\'}[search.reverse]"></i></th><th id="tableHeaderAddress" class="hidden-xs">Address</th></tr></thead><tbody><tr class="clickable-row display" ng-click="toggleDisplay(display.id);" ng-class="{\'active\' : isSelected(display.id) }" ng-repeat="display in displays.list"><td id="displayName-{{display.id}}" class="display-name"><span>{{display.name}}</span></td><td id="displayAddress-{{display.id}}" class="display-address hidden-xs"><span class="text-muted">{{display.address}}</span></td></tr></tbody></table></div></div></div>');
 }]);
 })();
 
