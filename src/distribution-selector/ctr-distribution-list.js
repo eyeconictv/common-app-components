@@ -17,6 +17,12 @@ angular.module("risevision.common.components.distribution-selector")
         id: "displaySearchInput"
       };
 
+      $scope.$on("displayCreated", function () {
+        $scope.displays.clear();
+
+        $scope.load();
+      });
+
       $scope.$watch("loadingDisplays", function (loading) {
         if (loading) {
           $loading.start("display-list-loader");
@@ -74,8 +80,9 @@ angular.module("risevision.common.components.distribution-selector")
         }
       };
 
-
-
+      $scope.addDisplay = function () {
+        $rootScope.$broadcast("distributionSelector.addDisplay");
+      };
 
       $scope.isSelected = function (displayId) {
         var index = $scope.parameters.distribution.indexOf(displayId);
