@@ -539,13 +539,13 @@ angular.module("risevision.common.components.logging")
       "getOAuthUserInfo", "getUserProfile", "companyState", "objectHelper",
       "$rootScope", "$interval", "$loading", "$window", "GOOGLE_OAUTH2_URL",
       "localStorageService", "$document", "uiFlowManager", "getBaseDomain",
-      "rvTokenStore", "externalLogging",
+      "rvTokenStore", "externalLogging", "$http",
       function ($q, $log, $location, CLIENT_ID,
         gapiLoader, OAUTH2_SCOPES, userInfoCache,
         getOAuthUserInfo, getUserProfile, companyState, objectHelper,
         $rootScope, $interval, $loading, $window, GOOGLE_OAUTH2_URL,
         localStorageService, $document, uiFlowManager, getBaseDomain,
-        rvTokenStore, externalLogging) {
+        rvTokenStore, externalLogging, $http) {
         //singleton factory that represents userState throughout application
 
         var _state = {
@@ -704,6 +704,16 @@ angular.module("risevision.common.components.logging")
 
           if (_state.userToken !== "dummy") {
             opts.authuser = _state.userToken;
+          } else {
+            opts.authuser = $http.get(
+              'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' +
+              _state.params.access_token)
+              .then(function (resp) {
+                return resp.data.email;
+              }, function (err) {
+                console.log('Error retrieving userinfo');
+                return opts.authuser;
+              });
           }
 
           if (attemptImmediate) {
@@ -712,8 +722,10 @@ angular.module("risevision.common.components.logging")
             opts.prompt = "select_account";
           }
 
-          gapiLoader()
-            .then(function (gApi) {
+          $q.all([gapiLoader(), opts.authuser])
+            .then(function (qAll) {
+              var gApi = qAll[0];
+              opts.authuser = qAll[1];
               // Setting the gapi token with the chosen user token. This is a fix for the multiple account issue.
               gApi.auth.setToken(_state.params);
 
