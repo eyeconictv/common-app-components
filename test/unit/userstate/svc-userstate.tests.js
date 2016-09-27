@@ -54,6 +54,13 @@ describe("Services: auth & user state", function() {
       startGlobal: function(){},
       stopGlobal: function(){}
     });
+    $provide.factory("$http", [function () {
+      return {
+        get: function(url,data, config) {
+          return Q.resolve({data:{email:'a@b.ca'}});
+        }
+      };
+    }]);
   }));
   
   it("should exist, also methods", function(done) {
@@ -161,7 +168,7 @@ describe("Services: auth & user state", function() {
         externalLoggingSpy = sinon.spy(externalLogging, "logEvent");
         broadcastSpy = sinon.spy(rootScope, "$broadcast");
         // Fake user token being stored locally
-        userState._setUserToken();
+        userState._setUserToken({access_token:'token'});
       });
     });
     
