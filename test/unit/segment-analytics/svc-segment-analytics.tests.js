@@ -14,7 +14,7 @@ describe("Services: segment analytics", function() {
           return "username";
         },
         getUserCompanyId: function() {
-          return "companyId";
+          return companyId;
         },
         getUserCompanyName: function() {
           return "companyName";
@@ -33,12 +33,14 @@ describe("Services: segment analytics", function() {
     }]);
   }));
   
-  var segmentAnalytics, analyticsEvents, $scope;
+  var segmentAnalytics, analyticsEvents, $scope, companyId;
   beforeEach(function(){
     inject(function($rootScope, $injector){
       $scope = $rootScope;
+      companyId = "companyId";
       
       segmentAnalytics = $injector.get("segmentAnalytics");
+      segmentAnalytics.load(true);
       analyticsEvents = $injector.get("analyticsEvents");
       analyticsEvents.initialize();
     });
@@ -58,14 +60,38 @@ describe("Services: segment analytics", function() {
   });
 
   it("should identify user", function(done) {
-    var identifySpy = sinon.spy(segmentAnalytics, "identify");        
+    var identifySpy = sinon.spy(segmentAnalytics, "identify");    
 
     $scope.$broadcast("risevision.user.authorized");
     $scope.$digest();
     
     setTimeout(function() {
-      identifySpy.should.have.been.called;
-      
+      identifySpy.should.have.been.calledWith('username',{
+        company: { id: "companyId", name: "companyName" },
+        companyId: "companyId",
+        companyName: "companyName",
+        email: undefined,
+        firstName: "",
+        lastName: ""
+      });
+      done();
+    }, 10);
+  });
+
+  it("should not send company information if company is undefined", function(done) {
+    var identifySpy = sinon.spy(segmentAnalytics, "identify");    
+
+    companyId = null;
+    
+    $scope.$broadcast("risevision.user.authorized");
+    $scope.$digest();
+    
+    setTimeout(function() {
+      identifySpy.should.have.been.calledWith('username',{
+        email: undefined,
+        firstName: "",
+        lastName: ""
+      });
       done();
     }, 10);
   });

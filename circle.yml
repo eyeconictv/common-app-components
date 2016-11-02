@@ -1,11 +1,15 @@
 machine:
   node:
-    version: 4.2.2
+    version: 6.9.1
 dependencies:
-  override:
+  pre:
+    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list
+    - sudo apt-get update -qq
+    - sudo apt-get install -y google-chrome-stable
+  post:
     - npm install
     - bower install
-  post:
     - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
     - nohup bash -c "java -jar selenium-server-standalone-2.44.0.jar &"
 test:
