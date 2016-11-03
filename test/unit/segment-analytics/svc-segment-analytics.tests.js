@@ -62,6 +62,24 @@ describe("Services: segment analytics", function() {
   it("should identify user", function(done) {
     var identifySpy = sinon.spy(segmentAnalytics, "identify");    
 
+    analyticsEvents.identify();
+    
+    setTimeout(function() {
+      identifySpy.should.have.been.calledWith('username',{
+        company: { id: "companyId", name: "companyName" },
+        companyId: "companyId",
+        companyName: "companyName",
+        email: undefined,
+        firstName: "",
+        lastName: ""
+      });
+      done();
+    }, 10);
+  });
+
+  it("should identify user when authorized", function(done) {
+    var identifySpy = sinon.spy(segmentAnalytics, "identify");    
+
     $scope.$broadcast("risevision.user.authorized");
     $scope.$digest();
     

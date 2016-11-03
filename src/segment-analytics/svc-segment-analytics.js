@@ -95,31 +95,31 @@
     function ($rootScope, segmentAnalytics, userState) {
       var service = {};
 
-      var _identify = function () {
-        var profile = userState.getCopyOfProfile();
+      service.identify = function () {
+        if (userState.getUsername()) {
+          var profile = userState.getCopyOfProfile();
 
-        var properties = {
-          email: profile.email,
-          firstName: profile.firstName ? profile.firstName : "",
-          lastName: profile.lastName ? profile.lastName : "",
-        };
-        if (userState.getUserCompanyId()) {
-          properties.companyId = userState.getUserCompanyId();
-          properties.companyName = userState.getUserCompanyName();
-          properties.company = {
-            id: userState.getUserCompanyId(),
-            name: userState.getUserCompanyName()
+          var properties = {
+            email: profile.email,
+            firstName: profile.firstName ? profile.firstName : "",
+            lastName: profile.lastName ? profile.lastName : "",
           };
-        }
+          if (userState.getUserCompanyId()) {
+            properties.companyId = userState.getUserCompanyId();
+            properties.companyName = userState.getUserCompanyName();
+            properties.company = {
+              id: userState.getUserCompanyId(),
+              name: userState.getUserCompanyName()
+            };
+          }
 
-        segmentAnalytics.identify(userState.getUsername(), properties);
+          segmentAnalytics.identify(userState.getUsername(), properties);
+        }
       };
 
       service.initialize = function () {
         $rootScope.$on("risevision.user.authorized", function () {
-          if (userState.getUsername()) {
-            _identify();
-          }
+          service.identify();
         });
       };
 
