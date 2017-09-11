@@ -33,13 +33,14 @@ describe("Services: segment analytics", function() {
     }]);
   }));
   
-  var segmentAnalytics, analyticsEvents, $scope, companyId;
+  var segmentAnalytics, analyticsEvents, $scope, companyId, $window;
   beforeEach(function(){
     inject(function($rootScope, $injector){
       $scope = $rootScope;
       companyId = "companyId";
       
       segmentAnalytics = $injector.get("segmentAnalytics");
+      $window = $injector.get("$window");
       segmentAnalytics.load(true);
       analyticsEvents = $injector.get("analyticsEvents");
       analyticsEvents.initialize();
@@ -57,6 +58,7 @@ describe("Services: segment analytics", function() {
       expect(segmentAnalytics).to.have.property(method);
       expect(segmentAnalytics[method]).to.be.a("function");
     });
+    expect($window.analytics.SNIPPET_VERSION).to.equal("4.0.0");
   });
 
   it("should identify user", function(done) {
