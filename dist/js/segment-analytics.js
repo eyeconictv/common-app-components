@@ -13,6 +13,7 @@
 
       $window.analytics = $window.analytics || [];
       var analytics = $window.analytics;
+      analytics.SNIPPET_VERSION = "4.0.0";
 
       analytics.factory = function (t) {
         function addUrl(methodName, args) {
