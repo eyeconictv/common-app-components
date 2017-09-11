@@ -69,7 +69,7 @@
         element(by.css("#backgroundImageUrl input[name='url']")).sendKeys("images/background_image.jpg");
 
         // do arbitrary task to take focus off url field
-        element(by.css("input[name=scale]")).click();
+        element(by.css("#backgroundImageUrl input[name='url']")).sendKeys(protractor.Key.TAB);
 
         // image placeholder should be removed
         expect(element(by.css(".image-placeholder")).isPresent()).to.eventually.be.false;
