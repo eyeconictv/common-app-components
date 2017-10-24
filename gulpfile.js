@@ -69,16 +69,12 @@
     "bower_components/rv-loading/loading.js",
     "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
     "bower_components/lodash/dist/lodash.js",
-    "bower_components/mustache/mustache.js",
     "bower_components/angular-ui-flow-manager/src/js/*.js",
     "bower_components/ng-biscuit/dist/ng-biscuit.js",
     "bower_components/ng-gapi-loader/src/js/*.js",
     "bower_components/ng-core-api-client/src/js/*.js",
     "bower_components/angular-local-storage/dist/angular-local-storage.js",
-    "bower_components/rv-gapi-mock/observed-browser.js",
-    "bower_components/rv-gapi-mock/_mock-data.js",
-    "bower_components/rv-gapi-mock/gapi-mock-data/*.js",
-    "bower_components/rv-gapi-mock/gapi-mock.js",
+    "bower_components/angular-md5/angular-md5.js",
     "src/config.js",
     "src/**/app.js",
     "src/**/svc-*.js",
@@ -128,11 +124,11 @@
   gulp.task("concat", function () { //copy angular files
     var tasks = folders.map(function(folder) {
       return gulp.src([
-        path.join(scriptsPath, folder, "/app.js"),
-        path.join(scriptsPath, folder, "/svc-*.js"),
-        path.join(scriptsPath, folder, "/dtv-*.js"),
-        path.join(scriptsPath, folder, "/ctr-*.js"),
-        path.join(scriptsPath, folder, "/ftr-*.js"),
+        path.join(scriptsPath, folder, "**/app.js"),
+        path.join(scriptsPath, folder, "**/svc-*.js"),
+        path.join(scriptsPath, folder, "**/dtv-*.js"),
+        path.join(scriptsPath, folder, "**/ctr-*.js"),
+        path.join(scriptsPath, folder, "**/ftr-*.js"),
         path.join("./tmp/partials/", folder, "*.js")
       ])
       .pipe(concat(folder + ".js"))
