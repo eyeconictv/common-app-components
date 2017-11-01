@@ -21,13 +21,11 @@ angular.module("risevision.common.components.userstate")
             $scope.emailSent = true;
           })
           .catch(function (err) {
-            var error = err && err.result && err.result.code;
-
-            if (error === 409) {
+            if (err.status === 409) {
               $log.log("Requested password reset for Google account");
               $scope.isGoogleAccount = true;
             } else { // No special case for 404, for security reasons
-              $log.error(err);
+              console.error(err);
               $scope.emailSent = true;
             }
           })

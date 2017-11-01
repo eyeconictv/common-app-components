@@ -59,13 +59,12 @@ describe("controller: Request Password Reset", function() {
         expect($loading.startGlobal).to.have.been.called;
         expect($loading.stopGlobal).to.have.been.called;
         expect($log.log).to.have.been.called;
-        expect($log.error).to.not.have.been.called;
         done();
       }, 0);
     });
 
     it("should show email sent message on user not found", function(done) {
-      sandbox.stub(userauth, "requestPasswordReset").returns(Q.reject({ result: { code: 404 } }));
+      sandbox.stub(userauth, "requestPasswordReset").returns(Q.reject({ status: 404 }));
       $scope.requestPasswordReset();
 
       setTimeout(function() {
@@ -75,13 +74,12 @@ describe("controller: Request Password Reset", function() {
         expect($loading.startGlobal).to.have.been.called;
         expect($loading.stopGlobal).to.have.been.called;
         expect($log.log).to.not.have.been.called;
-        expect($log.error).to.have.been.called;
         done();
       }, 0);
     });
 
     it("should show email sent message on error", function(done) {
-      sandbox.stub(userauth, "requestPasswordReset").returns(Q.reject({ result: { code: 500 } }));
+      sandbox.stub(userauth, "requestPasswordReset").returns(Q.reject({ status: 500 }));
       $scope.requestPasswordReset();
 
       setTimeout(function() {
@@ -91,13 +89,12 @@ describe("controller: Request Password Reset", function() {
         expect($loading.startGlobal).to.have.been.called;
         expect($loading.stopGlobal).to.have.been.called;
         expect($log.log).to.not.have.been.called;
-        expect($log.error).to.have.been.called;
         done();
       }, 0);
     });
 
     it("should not show email sent message when Google Account", function(done) {
-      sandbox.stub(userauth, "requestPasswordReset").returns(Q.reject({ result: { code: 409 } }));
+      sandbox.stub(userauth, "requestPasswordReset").returns(Q.reject({ status: 409 }));
       $scope.requestPasswordReset();
 
       setTimeout(function() {
@@ -107,7 +104,6 @@ describe("controller: Request Password Reset", function() {
         expect($loading.startGlobal).to.have.been.called;
         expect($loading.stopGlobal).to.have.been.called;
         expect($log.log).to.have.been.called;
-        expect($log.error).to.not.have.been.called;
         done();
       }, 0);
     });
