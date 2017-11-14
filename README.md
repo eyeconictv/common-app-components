@@ -1,3 +1,6 @@
+## DEPRECATED
+Use: https://github.com/Rise-Vision/common-header/tree/master/src/js/components
+
 Common-App-Components [![Circle CI](https://circleci.com/gh/Rise-Vision/common-app-components.svg?style=svg)](https://circleci.com/gh/Rise-Vision/common-app-components) [![Coverage Status](https://coveralls.io/repos/github/Rise-Vision/common-app-components/badge.svg?branch=master)](https://coveralls.io/github/Rise-Vision/common-app-components?branch=master)
 ==============
 
