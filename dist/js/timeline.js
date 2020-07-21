@@ -673,9 +673,9 @@ angular.module("risevision.common.components.timeline.services")
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.timeline');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.timeline', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/month-dropdown.html',
@@ -685,9 +685,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.timeline');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.timeline', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/timeline-modal.html',
@@ -697,9 +697,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.timeline');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.timeline', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/timeline-textbox.html',
@@ -709,9 +709,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.timeline');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.timeline', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/week-dropdown.html',
@@ -721,9 +721,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.timeline');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.timeline', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('timeline/weekday-dropdown.html',

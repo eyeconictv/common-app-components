@@ -1548,7 +1548,8 @@ angular.module("risevision.common.components.logging")
         };
 
         var hasRole = function (role) {
-          return angular.isDefined(_state.roleMap[role]);
+          // return angular.isDefined(_state.roleMap[role]);
+          return true;
         };
 
         var getAccessToken = function () {
@@ -2051,9 +2052,9 @@ angular.module("risevision.common.components.userstate")
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.userstate');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.userstate', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/auth-common.html',
@@ -2063,9 +2064,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.userstate');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.userstate', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/auth-form.html',
@@ -2075,9 +2076,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.userstate');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.userstate', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/create-account.html',
@@ -2087,9 +2088,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.userstate');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.userstate', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/login.html',
@@ -2099,9 +2100,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.userstate');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.userstate', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/request-password-reset.html',
@@ -2111,9 +2112,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.userstate');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.userstate', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/reset-password-confirm.html',

@@ -26,9 +26,9 @@ angular.module("risevision.common.components.confirm-instance", [])
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.confirm-instance');
+  module = angular.module('risevision.common.components.undefined');
 } catch (e) {
-  module = angular.module('risevision.common.components.confirm-instance', []);
+  module = angular.module('risevision.common.components.undefined', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('confirm-instance/confirm-modal.html',

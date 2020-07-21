@@ -1,6 +1,15 @@
 Common-App-Components [![Circle CI](https://circleci.com/gh/Rise-Vision/common-app-components.svg?style=svg)](https://circleci.com/gh/Rise-Vision/common-app-components) [![Coverage Status](https://coveralls.io/repos/github/Rise-Vision/common-app-components/badge.svg?branch=master)](https://coveralls.io/github/Rise-Vision/common-app-components?branch=master)
 ==============
 
+## Quickstart
+
+### Built With
+- Node 6.17.1
+- `npm install`
+- `npm intall -g bower`
+- `bower install`
+- `gulp build`
+
 ## Introduction
 Various UI Angular custom diretives shared across Angular based apps developed by Rise Vision.
 
