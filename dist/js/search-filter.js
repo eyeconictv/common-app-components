@@ -35,9 +35,9 @@ angular.module("risevision.common.components.search-filter", [])
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.search-filter');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.search-filter', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('search-filter/search-filter.html',

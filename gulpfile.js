@@ -113,7 +113,7 @@
       }))
       .pipe(ngHtml2Js({
         moduleName: function (file) {
-          var pathParts = file.path.split("/");
+          var pathParts = file.path.replace(/[\\]+/g,"/").split("/");
           var folder = pathParts[pathParts.length - 2];
           return "risevision.common.components." + folder;
         }

@@ -259,9 +259,9 @@ angular.module("risevision.common.components.distribution-selector")
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.distribution-selector');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.distribution-selector', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-list.html',
@@ -271,9 +271,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.distribution-selector');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.distribution-selector', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-modal.html',
@@ -283,9 +283,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.distribution-selector');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.distribution-selector', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('distribution-selector/distribution-selector.html',

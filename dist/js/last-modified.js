@@ -40,9 +40,9 @@
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.last-modified');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.last-modified', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('last-modified/last-modified.html',

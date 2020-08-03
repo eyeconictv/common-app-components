@@ -132,9 +132,9 @@
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.background-image-setting');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.background-image-setting', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('background-image-setting/background-image-setting.html',
@@ -144,9 +144,9 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.background-image-setting');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.background-image-setting', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('background-image-setting/repeat-setting.html',

@@ -44,9 +44,9 @@ angular.module("risevision.common.components.message-box", [
 
 (function(module) {
 try {
-  module = angular.module('risevision.common.components.undefined');
+  module = angular.module('risevision.common.components.message-box');
 } catch (e) {
-  module = angular.module('risevision.common.components.undefined', []);
+  module = angular.module('risevision.common.components.message-box', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('message-box/message-box.html',
