@@ -42,9 +42,7 @@
     "jshint-stylish": "^0.2.0",
     "jshint": "2.8.0",
     "merge-stream": "^0.1.7",
-    "run-sequence": "^0.3.2",
-    "widget-tester": "git://github.com/porcupine-plan/widget-tester.git",
-    "rv-common-e2e": "git://github.com/porcupine-plan/rv-common-e2e.git"
+    "run-sequence": "^0.3.2"
   },
   "homepage": "https://github.com/porcupine-plan/common-app-components"
 }
