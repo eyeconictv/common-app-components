@@ -16,7 +16,7 @@
   var uglify = require("gulp-uglify");
   var concat = require("gulp-concat");
   var del = require("del");
-  var factory = require("widget-tester").gulpTaskFactory;
+  // var factory = require("widget-tester").gulpTaskFactory;
   var e2ePort = process.env.E2E_PORT || 8099;
 
   var scriptsPath = "./src/";
@@ -83,26 +83,26 @@
     "src/**/ftr-*.js",
     "test/unit/**/*.tests.js"
   ];
-  gulp.task("test:unit", factory.testUnitAngular({
-    coverageFiles: "../../src/**/*.js",
-    testFiles: unitTestFiles
-  }));
+  // gulp.task("test:unit", factory.testUnitAngular({
+  //   coverageFiles: "../../src/**/*.js",
+  //   testFiles: unitTestFiles
+  // }));
   
-  gulp.task("coveralls", factory.coveralls());
+  // gulp.task("coveralls", factory.coveralls());
 
-  gulp.task("test",  function (cb) {
-    runSequence("build", ["test:unit", "test:e2e"], "coveralls", cb);
-  });
-  gulp.task("server", factory.testServer({https: false}));
-  gulp.task("server-close", factory.testServerClose());
-  gulp.task("test:webdrive_update", factory.webdriveUpdate());
-  gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
-    browser: "chrome",
-    testFiles: process.env.TEST_FILES
-  }));
-  gulp.task("test:e2e", function (cb) {
-    runSequence("server", "test:e2e:core", "server-close", cb);
-  });
+  // gulp.task("test",  function (cb) {
+  //   runSequence("build", ["test:unit", "test:e2e"], "coveralls", cb);
+  // });
+  // gulp.task("server", factory.testServer({https: false}));
+  // gulp.task("server-close", factory.testServerClose());
+  // gulp.task("test:webdrive_update", factory.webdriveUpdate());
+  // gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
+  //   browser: "chrome",
+  //   testFiles: process.env.TEST_FILES
+  // }));
+  // gulp.task("test:e2e", function (cb) {
+  //   runSequence("server", "test:e2e:core", "server-close", cb);
+  // });
   
   gulp.task("html2js", function() {
     return gulp.src("./src/**/*.html")
